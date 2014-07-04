@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">Instashop</string>
+    <string name="action_settings">Settings</string>
+    <string name="hello_world">Hello world!</string>
+    <string name="image_description_testing">Testing image Description</string>
+    
+    <!-- Login Page -->
+<!--     <string name="title_activity_login">Login Activity</string> -->
+    
+    <!-- Instagram Activity -->
+    <string name="title_activity_instagram">Instagram Activity</string>
+    
+
+</resources>

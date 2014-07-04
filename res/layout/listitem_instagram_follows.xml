@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent" >
+    
+    <LinearLayout
+        android:id="@+id/box_followsinfo"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/margin" >
+        
+        <ImageView
+	        android:id="@+id/imgvw_ig_profpic"
+	        android:layout_width="50dp"
+	        android:layout_height="50dp"
+	        android:layout_alignParentLeft="true"  
+	        android:layout_marginLeft="@dimen/margin"    
+	        android:background="@drawable/default_image_square"/>
+	
+        <RelativeLayout
+	        android:id="@+id/box_usernameinfo"
+	        android:layout_width="match_parent"
+	        android:layout_height="wrap_content"
+	        android:layout_toRightOf="@id/imgvw_ig_profpic" >
+        
+		    <TextView
+		        android:id="@+id/txt_ig_full_name"
+		        android:layout_width="wrap_content"
+		        android:layout_height="wrap_content"
+		        android:layout_marginLeft="@dimen/margin"
+		        android:layout_marginTop="5dp" 
+		        android:textAlignment="center"
+		        android:singleLine="true"
+		        android:text="Full Name" />
+		
+		    <TextView
+		        android:id="@+id/txt_ig_username"
+		        android:layout_width="wrap_content"
+		        android:layout_height="wrap_content"
+		        android:layout_marginLeft="@dimen/margin"
+		        android:layout_marginTop="2dp" 
+		        android:layout_below="@id/txt_ig_full_name"
+		        android:textAlignment="center"
+		        android:singleLine="true"
+		        android:text="Username" />
+		    
+		    
+		</RelativeLayout>
+        
+    </LinearLayout>
+
+</RelativeLayout>
