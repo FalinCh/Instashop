@@ -91,7 +91,7 @@ public class MainActivity extends Activity {
 		}
 		
 		navigationDrawerHandler(savedInstanceState);
-
+		
 	}
 
 	@Override
@@ -326,6 +326,7 @@ public class MainActivity extends Activity {
 		//Intent intent = new Intent(this, ListFollowsActivity.class);
 		//Intent intent = new Intent(this, SearchPeopleActivity.class);
 		//Intent intent = new Intent(this, ListProductActivity.class);
+		
 		Intent intent = new Intent(MainActivity.this, TimelineFragment.class);
 		intent.putExtra(InstagramActivity.KEY_USER_ID, userId);
 		intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);

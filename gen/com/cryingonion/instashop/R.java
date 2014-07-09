@@ -803,7 +803,7 @@ containing a value of this type.
         public static final int abc_split_action_bar_is_narrow=0x7f060002;
     }
     public static final class color {
-        public static final int abc_search_url_text_holo=0x7f070009;
+        public static final int abc_search_url_text_holo=0x7f07000a;
         public static final int abc_search_url_text_normal=0x7f070000;
         public static final int abc_search_url_text_pressed=0x7f070002;
         public static final int abc_search_url_text_selected=0x7f070001;
@@ -813,6 +813,7 @@ containing a value of this type.
         public static final int list_background_pressed=0x7f070005;
         public static final int list_divider=0x7f070006;
         public static final int list_item_title=0x7f070003;
+        public static final int white=0x7f070009;
     }
     public static final class dimen {
         /**  Default height of an action bar. 
@@ -1036,13 +1037,13 @@ containing a value of this type.
         public static final int action_menu_divider=0x7f050016;
         public static final int action_menu_presenter=0x7f050017;
         public static final int action_mode_close_button=0x7f050024;
-        public static final int action_settings=0x7f050065;
+        public static final int action_settings=0x7f050066;
         public static final int activity_chooser_view_content=0x7f050025;
         public static final int always=0x7f05000b;
         public static final int beginning=0x7f050011;
-        public static final int box_followsinfo=0x7f05005a;
+        public static final int box_followsinfo=0x7f05005b;
         public static final int box_userinfo=0x7f05004b;
-        public static final int box_usernameinfo=0x7f05005c;
+        public static final int box_usernameinfo=0x7f05005d;
         public static final int btnComment=0x7f05003d;
         public static final int btnSearch=0x7f050043;
         public static final int buttonLoginInstagram=0x7f050047;
@@ -1061,18 +1062,19 @@ containing a value of this type.
         public static final int expand_activities_button=0x7f050026;
         public static final int expanded_menu=0x7f05002c;
         public static final int frame_container=0x7f050049;
+        public static final int grid_ig_feeds=0x7f050058;
         public static final int home=0x7f050014;
         public static final int homeAsUp=0x7f050005;
         public static final int icon=0x7f05002a;
         public static final int ifRoom=0x7f05000a;
         public static final int image=0x7f050027;
-        public static final int imgProfile=0x7f050058;
-        public static final int img_full_screen=0x7f050060;
+        public static final int imgProfile=0x7f050059;
+        public static final int img_full_screen=0x7f050061;
         public static final int imgvw_ig_cmnt=0x7f050056;
         public static final int imgvw_ig_like=0x7f050055;
         public static final int imgvw_ig_media=0x7f050050;
         public static final int imgvw_ig_prof_pic=0x7f05004c;
-        public static final int imgvw_ig_profpic=0x7f05005b;
+        public static final int imgvw_ig_profpic=0x7f05005c;
         public static final int imgvw_play=0x7f050051;
         public static final int listMode=0x7f050001;
         public static final int list_item=0x7f050029;
@@ -1080,12 +1082,12 @@ containing a value of this type.
         public static final int lst_cmnts=0x7f05003e;
         public static final int lst_ig_feeds=0x7f050040;
         public static final int lst_ig_follows=0x7f050041;
-        public static final int mediacontroller_progress=0x7f050064;
+        public static final int mediacontroller_progress=0x7f050065;
         public static final int middle=0x7f050012;
         public static final int never=0x7f050009;
         public static final int none=0x7f050010;
         public static final int normal=0x7f050000;
-        public static final int play_button=0x7f05005f;
+        public static final int play_button=0x7f050060;
         public static final int progress_circular=0x7f050018;
         public static final int progress_horizontal=0x7f050019;
         public static final int radio=0x7f05002f;
@@ -1110,18 +1112,18 @@ containing a value of this type.
         public static final int tabMode=0x7f050002;
         public static final int title=0x7f05002b;
         public static final int top_action_bar=0x7f050020;
-        public static final int txt_current_time=0x7f050063;
+        public static final int txt_current_time=0x7f050064;
         public static final int txt_empty_view=0x7f05003f;
         public static final int txt_ig_caption=0x7f050054;
         public static final int txt_ig_cmnt_count=0x7f050053;
         public static final int txt_ig_created_at=0x7f05004e;
-        public static final int txt_ig_full_name=0x7f05005d;
+        public static final int txt_ig_full_name=0x7f05005e;
         public static final int txt_ig_like_count=0x7f050052;
-        public static final int txt_ig_text=0x7f050059;
-        public static final int txt_ig_username=0x7f05005e;
+        public static final int txt_ig_text=0x7f05005a;
+        public static final int txt_ig_username=0x7f05005f;
         public static final int txt_ig_usr_name=0x7f05004d;
-        public static final int txt_time_separator=0x7f050062;
-        public static final int txt_total_time=0x7f050061;
+        public static final int txt_time_separator=0x7f050063;
+        public static final int txt_total_time=0x7f050062;
         public static final int up=0x7f050021;
         public static final int useLogo=0x7f050003;
         public static final int video=0x7f050046;
@@ -1192,11 +1194,12 @@ containing a value of this type.
         public static final int fragment_setting=0x7f030023;
         public static final int fragment_timeline=0x7f030024;
         public static final int fragment_wishlist=0x7f030025;
-        public static final int listitem_comments=0x7f030026;
-        public static final int listitem_instagram_feed=0x7f030027;
-        public static final int listitem_instagram_follows=0x7f030028;
-        public static final int support_simple_spinner_dropdown_item=0x7f030029;
-        public static final int view_youtube_player_ctrls=0x7f03002a;
+        public static final int griditem_instagram_feed=0x7f030026;
+        public static final int listitem_comments=0x7f030027;
+        public static final int listitem_instagram_feed=0x7f030028;
+        public static final int listitem_instagram_follows=0x7f030029;
+        public static final int support_simple_spinner_dropdown_item=0x7f03002a;
+        public static final int view_youtube_player_ctrls=0x7f03002b;
     }
     public static final class menu {
         public static final int discover=0x7f0d0000;

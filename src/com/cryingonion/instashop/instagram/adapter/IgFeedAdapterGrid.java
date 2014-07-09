@@ -30,20 +30,20 @@ import com.cryingonion.instashop.instagram.holder.IgFeedHolder;
 import com.cryingonion.instashop.instagram.utils.AppUtils;
 import com.cryingonion.instashop.instagram.utils.ImageDownloader;
 
-public class IgFeedAdapter extends BaseAdapter {
+public class IgFeedAdapterGrid extends BaseAdapter {
 
 	private Context mContext;
 	private LayoutInflater mInflater;
 	private ArrayList<IgFeedHolder> mIgFeedList;
 
-	public IgFeedAdapter(Context context) {
+	public IgFeedAdapterGrid(Context context) {
 
 		mContext = context;
 		mInflater = (LayoutInflater) context
 				.getSystemService(Service.LAYOUT_INFLATER_SERVICE);
 	}
-
-	public IgFeedAdapter(Context context,ArrayList<IgFeedHolder> igFeedList) {
+	
+	public IgFeedAdapterGrid(Context context,ArrayList<IgFeedHolder> igFeedList) {
 		this(context);
 		mIgFeedList = igFeedList;
 	}
@@ -51,7 +51,7 @@ public class IgFeedAdapter extends BaseAdapter {
 	public void setDataSource(ArrayList<IgFeedHolder> igFeedList) {
 		mIgFeedList = igFeedList;
 	}
-
+	
 	public void updateFeedList(ArrayList<IgFeedHolder> igFeedList) {
 		if (mIgFeedList != null) {
 			mIgFeedList.addAll(igFeedList);
@@ -61,18 +61,7 @@ public class IgFeedAdapter extends BaseAdapter {
 	}
 
 	static class ViewHolder {
-		// profile image.
-		ImageView mImgVwProfile;
-		// User Name
-		TextView mTxtVwName;
-		// Feed text
-		TextView mTxtVwFeedTxt;
-		// Created at
-		TextView mTxtVwLog;
-		TextView mTxtVwLikeCount;
-		TextView mTxtVwCmntCount;
-		ImageView mImgVwLike;
-		ImageView mImgVwCmnt;
+		
 		ImageView mImgVwFeed;
 		ImageView mImgVwPlay;
 	}
@@ -100,24 +89,9 @@ public class IgFeedAdapter extends BaseAdapter {
 
 		ViewHolder holder;
 		holder = new ViewHolder();
-		convertView = mInflater.inflate(R.layout.listitem_instagram_feed, null);
+		convertView = mInflater.inflate(R.layout.griditem_instagram_feed, null);
 
-		holder.mImgVwProfile = (ImageView) convertView
-				.findViewById(R.id.imgvw_ig_prof_pic);
-		holder.mTxtVwName = (TextView) convertView
-				.findViewById(R.id.txt_ig_usr_name);
-		holder.mTxtVwLog = (TextView) convertView
-				.findViewById(R.id.txt_ig_created_at);
-		holder.mTxtVwFeedTxt = (TextView) convertView
-				.findViewById(R.id.txt_ig_caption);
-//		holder.mTxtVwLikeCount = (TextView) convertView
-//				.findViewById(R.id.txt_ig_like_count);
-//		holder.mTxtVwCmntCount = (TextView) convertView
-//				.findViewById(R.id.txt_ig_cmnt_count);
-//		holder.mImgVwLike = (ImageView) convertView
-//				.findViewById(R.id.imgvw_ig_like);
-//		holder.mImgVwCmnt = (ImageView) convertView
-//				.findViewById(R.id.imgvw_ig_cmnt);
+		
 		holder.mImgVwFeed = (ImageView) convertView
 				.findViewById(R.id.imgvw_ig_media);
 		holder.mImgVwPlay = (ImageView) convertView
@@ -125,31 +99,10 @@ public class IgFeedAdapter extends BaseAdapter {
 
 		convertView.setTag(holder);
 		holder = (ViewHolder) convertView.getTag();
-
+		
 		final IgFeedHolder feedHolder = mIgFeedList.get(position);
-
-		// Set the profile image
-		if (AppUtils.isUrlImage(feedHolder.getmUserInfo().getmUserProfPicUrl())) {
-
-			ImageDownloader.setSquareImg(mContext,holder.mImgVwProfile,
-					feedHolder.getmUserInfo().getmUserProfPicUrl(),
-					R.drawable.icon,false,true);	    
-		}
-
-		// User Name
-		holder.mTxtVwName.setText(feedHolder.getmUserInfo().getmUserName());
-
-		// Created time
-		long longTime = Long.parseLong(feedHolder.getmCreatedTime());
-		/**
-		 * Instagram returns unix time stamp for the feed's created time, which
-		 * is in seconds. Hence multiplying by 1000 to convert it to
-		 * milliseconds.
-		 */
-		longTime = longTime * 1000;
-		holder.mTxtVwLog.setText(DateUtils.getRelativeTimeSpanString(longTime,
-			System.currentTimeMillis(), DateUtils.MINUTE_IN_MILLIS));		
-
+		
+		
 		// Feed image
 		feedHolder.getmThmbnlUrl();
 		// Feed image
@@ -159,7 +112,7 @@ public class IgFeedAdapter extends BaseAdapter {
 		    ImageDownloader.setSquareImg(holder.mImgVwFeed,
 			    feedHolder.getmStdResImgUrl(),
 			    R.drawable.default_image_square, true, true);
-
+		    
 			if (feedHolder.getmFeedType() != null
 					&& feedHolder.getmFeedType().equalsIgnoreCase(
 							InstagramConstants.IG_MEDIA_VIDEO)) {
@@ -167,47 +120,14 @@ public class IgFeedAdapter extends BaseAdapter {
 			} else {
 				holder.mImgVwPlay.setVisibility(View.GONE);
 			}
-
+		    
 		    myMediaListener(holder, holder.mImgVwFeed, position);
 		} else {
 		    holder.mImgVwFeed.setImageResource(android.R.color.transparent);
 		}
-
-		// Caption
-		holder.mTxtVwFeedTxt.setText(feedHolder.getmCaptionText());		
-
-//		// Like count
-//		int likeCnt = Integer.parseInt(feedHolder.getmLikesCount());
-//		holder.mTxtVwLikeCount.setText(AppUtils
-//				.getStringFormattedNumber(likeCnt)
-//				+ AppUtils.getStringLikes(likeCnt) + ", ");
-//
-//		// Comment Count
-//		int cmntCnt = Integer.parseInt(feedHolder.getmCmntCount());
-//		holder.mTxtVwCmntCount.setText(AppUtils.getStringFormattedNumber(
-//				cmntCnt).trim()
-//				+ AppUtils.getStringComments(cmntCnt));
-
-//		holder.mImgVwLike.setOnClickListener(new OnClickListener() {
-//
-//			@Override
-//			public void onClick(View v) {
-//				InstagramWrapper wrapper = new InstagramWrapper(mContext);
-//				wrapper.postLikeOnMedia(InstagramConstants.IG_REQ_POST_LIKE,feedHolder.getmMediaId(),
-//						mPostLikeCmntListener);
-//			}
-//		});
-
-		/*holder.mImgVwCmnt.setOnClickListener(new OnClickListener() {
-
-			@Override
-			public void onClick(View v) {
-				IgWrapper wrapper = new IgWrapper(mContext);
-				wrapper.postCmntOnMedia(IgConstants.IG_REQ_POST_CMNT,"",feedHolder.getmMediaId(),
-						mPostLikeCmntListener);
-			}
-		});*/
-
+		
+		
+		
 		holder.mImgVwFeed.setOnClickListener(new OnClickListener() {
 
 			@Override
@@ -216,10 +136,10 @@ public class IgFeedAdapter extends BaseAdapter {
 				InstagramWrapper wrapper = new InstagramWrapper(mContext);
 
 				if (wrapper.isLoggedIn()) {
-					InstagramCmntDialogFrag cmntDlgFrag = new InstagramCmntDialogFrag(
-							mContext, feedHolder.getmMediaId());
-					cmntDlgFrag.show(((FragmentActivity) mContext)
-							.getSupportFragmentManager(), "IgCmntDialog");
+//					InstagramCmntDialogFrag cmntDlgFrag = new InstagramCmntDialogFrag(
+//							mContext, feedHolder.getmMediaId());
+//					cmntDlgFrag.show(((FragmentActivity) mContext)
+//							.getSupportFragmentManager(), "IgCmntDialog");
 				} else {
 
 					// To login instagram
@@ -231,14 +151,14 @@ public class IgFeedAdapter extends BaseAdapter {
 
 						@Override
 						public void onAuthSuccess() {
-							InstagramCmntDialogFrag cmntDlgFrag = new InstagramCmntDialogFrag(
-									mContext, feedHolder.getmMediaId());
-
-							FragmentTransaction transaction = ((FragmentActivity) mContext)
-									.getSupportFragmentManager()
-									.beginTransaction();
-							transaction.add(cmntDlgFrag, "IgCmntDialog");
-							transaction.commitAllowingStateLoss();
+//							InstagramCmntDialogFrag cmntDlgFrag = new InstagramCmntDialogFrag(
+//									mContext, feedHolder.getmMediaId());
+//
+//							FragmentTransaction transaction = ((FragmentActivity) mContext)
+//									.getSupportFragmentManager()
+//									.beginTransaction();
+//							transaction.add(cmntDlgFrag, "IgCmntDialog");
+//							transaction.commitAllowingStateLoss();
 						}
 
 						@Override
@@ -251,10 +171,10 @@ public class IgFeedAdapter extends BaseAdapter {
 				}				
 			}
 		});
-
+		
 		return convertView;
 	}
-
+	
 	public void myMediaListener(final ViewHolder phHolder, ImageView imgView,
 			final int position) {
 		imgView.setOnClickListener(new OnClickListener() {
@@ -282,7 +202,7 @@ public class IgFeedAdapter extends BaseAdapter {
 			}
 		});
 	}
-
+	
 	private ILikeCmntListener mPostLikeCmntListener = new ILikeCmntListener() {
 
 		@Override

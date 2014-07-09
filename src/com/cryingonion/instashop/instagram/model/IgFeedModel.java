@@ -168,24 +168,18 @@ public class IgFeedModel {
 					}
 
 					
-					// Get the caption object.
-					if (singleFeedObject.has(KEY_CAPTION)) {
-						JSONObject jsonCaption = singleFeedObject
-								.getJSONObject(KEY_CAPTION);
-
-						// Get the caption text
-						if (jsonCaption.has(KEY_TEXT)) {
-							igFeedHolder.setmCaptionText(jsonCaption
-									.optString(KEY_TEXT));
-						}
-					}
+//					// Get the caption object.
+//					if (singleFeedObject.has(KEY_CAPTION)) {
+//						JSONObject jsonCaption = singleFeedObject
+//								.getJSONObject(KEY_CAPTION);
+//
+//						// Get the caption text
+//						if (jsonCaption.has(KEY_TEXT)) {
+//							igFeedHolder.setmCaptionText(jsonCaption
+//									.optString(KEY_TEXT));
+//						}
+//					}
 					
-					// Get the caption object.
-					if (!singleFeedObject.has(KEY_CAPTION)) {
-						
-					}
-					
-
 					// Get the feed type (Image or Video.)
 					if (singleFeedObject.has(KEY_FEED_TYPE)) {
 						igFeedHolder.setmFeedType(singleFeedObject
