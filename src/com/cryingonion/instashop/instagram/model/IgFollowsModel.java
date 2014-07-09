@@ -50,7 +50,7 @@ public class IgFollowsModel {
 
 	public void parseResponse(JSONObject jsonObj) {
 
-		JSONArray FollowssArray;
+		JSONArray FollowsArray;
 
 		// Pagination link
 		if (jsonObj.has(KEY_PAGINATION)) {
@@ -69,17 +69,17 @@ public class IgFollowsModel {
 		if (jsonObj.has(DATA)) {
 			try {
 
-				FollowssArray = jsonObj.getJSONArray(DATA);
+				FollowsArray = jsonObj.getJSONArray(DATA);
 				mIgFollowsList = new ArrayList<IgFollowsHolder>();
 				// no. of Follows ie. posts
-				int arrayLength = FollowssArray.length();
+				int arrayLength = FollowsArray.length();
 				Log.d(InstagramConstants.TAG, "Total number of items in Array:"
 						+ arrayLength);
 
 				for (int i = 0; i < arrayLength; i++) {
 					Log.d(InstagramConstants.TAG, " IG post Num :" + i);
 
-					JSONObject singleFollowsObject = FollowssArray.getJSONObject(i);
+					JSONObject singleFollowsObject = FollowsArray.getJSONObject(i);
 					IgFollowsHolder igFollowsHolder = new IgFollowsHolder();
 
 					// Get the ID

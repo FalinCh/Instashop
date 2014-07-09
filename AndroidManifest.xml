@@ -15,16 +15,19 @@
         android:allowBackup="true"
         android:icon="@drawable/ic_launcher"
         android:label="@string/app_name"
-        android:theme="@style/AppBaseTheme" >
-        
+        android:theme="@style/AppTheme" >
         <activity
-            android:name="com.cryingonion.instashop.MainActivity"
+            android:name="com.cryingonion.instashop.DashboardActivity"
             android:label="@string/app_name" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+        </activity>
+        <activity
+            android:name="com.cryingonion.instashop.MainActivity"
+            android:label="@string/app_name" >
         </activity>
         <activity
             android:name="com.cryingonion.instashop.LoginActivity"
@@ -54,9 +57,17 @@
             android:label="@string/app_name" >
         </activity>
         <activity
-            android:name="com.cryingonion.instashop.SearchPeopleActivity"
-            android:label="@string/app_name" >
+            android:name="com.cryingonion.instashop.SearchActivity"
+            android:label="@string/title_activity_search" >
         </activity>
+        <!-- <activity -->
+        <!-- android:name="com.cryingonion.instashop.SearchPeopleActivity" -->
+        <!-- android:label="@string/app_name" > -->
+        <!-- </activity> -->
+        <!-- <activity -->
+        <!-- android:name="com.cryingonion.instashop.SearchProductActivity" -->
+        <!-- android:label="@string/app_name" > -->
+        <!-- </activity> -->
         <activity
             android:name="com.cryingonion.instashop.ListProductActivity"
             android:label="@string/app_name" >
@@ -65,32 +76,43 @@
             android:name="com.cryingonion.instashop.instagram.InstagramVideoDetailActivity"
             android:label="@string/app_name" >
         </activity>
-        
-        
-<!--         <fragment -->
-<!--             android:name="com.cryingonion.instashop.TimelineFragment" -->
-<!--             android:label="@string/title_fragment_setting" > -->
-<!--         </fragment> -->
-<!--         <fragment -->
-<!--             android:name="com.cryingonion.instashop.DiscoverFragment" -->
-<!--             android:label="@string/title_fragment_discover" > -->
-<!--         </fragment> -->
-<!--         <fragment -->
-<!--             android:name="com.cryingonion.instashop.RecommendationFragment" -->
-<!--             android:label="@string/title_fragment_recommendation" > -->
-<!--         </fragment> -->
-<!--         <fragment -->
-<!--             android:name="com.cryingonion.instashop.WishlistFragment" -->
-<!--             android:label="@string/title_fragment_wishlist" > -->
-<!--         </fragment> -->
-<!--         <fragment -->
-<!--             android:name="com.cryingonion.instashop.ProfileFragment" -->
-<!--             android:label="@string/title_fragment_profile" > -->
-<!--         </fragment> -->
-<!--         <fragment -->
-<!--             android:name="com.cryingonion.instashop.SettingFragment" -->
-<!--             android:label="@string/title_fragment_setting" > -->
-<!--         </fragment> -->
+
+        <!-- <fragment -->
+        <!-- android:name="com.cryingonion.instashop.TimelineFragment" -->
+        <!-- android:label="@string/title_fragment_setting" > -->
+        <!-- </fragment> -->
+        <!-- <fragment -->
+        <!-- android:name="com.cryingonion.instashop.DiscoverFragment" -->
+        <!-- android:label="@string/title_fragment_discover" > -->
+        <!-- </fragment> -->
+        <!-- <fragment -->
+        <!-- android:name="com.cryingonion.instashop.RecommendationFragment" -->
+        <!-- android:label="@string/title_fragment_recommendation" > -->
+        <!-- </fragment> -->
+        <!-- <fragment -->
+        <!-- android:name="com.cryingonion.instashop.WishlistFragment" -->
+        <!-- android:label="@string/title_fragment_wishlist" > -->
+        <!-- </fragment> -->
+        <!-- <fragment -->
+        <!-- android:name="com.cryingonion.instashop.ProfileFragment" -->
+        <!-- android:label="@string/title_fragment_profile" > -->
+        <!-- </fragment> -->
+        <!-- <fragment -->
+        <!-- android:name="com.cryingonion.instashop.SettingFragment" -->
+        <!-- android:label="@string/title_fragment_setting" > -->
+        <!-- </fragment> -->
+        <activity
+            android:name="com.cryingonion.instashop.ProductDetailsActivity"
+            android:label="@string/title_activity_product_details" >
+        </activity>
+        <activity
+            android:name="com.cryingonion.instashop.RecommendationProductFragment"
+            android:label="@string/title_activity_recommendation_product_fragment" >
+        </activity>
+        <activity
+            android:name="com.cryingonion.instashop.RecommendationStoreFragment"
+            android:label="@string/title_activity_recommendation_store_fragment" >
+        </activity>
     </application>
 
 </manifest>

@@ -12,10 +12,12 @@ import com.cryingonion.instashop.instagram.InstagramConstants;
 import com.cryingonion.instashop.instagram.InstagramWrapper;
 import com.cryingonion.instashop.instagram.holder.IgCommentHolder;
 import com.cryingonion.instashop.instagram.holder.IgFeedHolder;
+import com.cryingonion.instashop.instagram.holder.IgFollowsHolder;
 import com.cryingonion.instashop.instagram.holder.IgUserInfoHolder;
 import com.cryingonion.instashop.instagram.listener.IAuthenticationListener;
 import com.cryingonion.instashop.instagram.listener.IFetchCmntsListener;
 import com.cryingonion.instashop.instagram.listener.IFetchIgFeedsListener;
+import com.cryingonion.instashop.instagram.listener.IFetchIgFollowsListener;
 import com.cryingonion.instashop.instagram.listener.ILikeCmntListener;
 import com.cryingonion.instashop.instagram.listener.IReqStatusListener;
 import com.cryingonion.instashop.instagram.listener.IUserInfoFetchedListener;
@@ -27,6 +29,7 @@ public class InstagramActivity  extends Activity implements IReqStatusListener{
     public static final String KEY_CMNT_TXT = "cmnt_txt";
     public static final String KEY_NXT_PG_URL = "nxt_pg_url";
     public static final String KEY_FEED_COUNT = "feed_count";
+    public static final String KEY_FOLLOW_COUNT = "follow_count";
     
 	private InstagramWrapper mIgWrapper;
 	private Intent mIgReqIntent;
@@ -34,6 +37,7 @@ public class InstagramActivity  extends Activity implements IReqStatusListener{
 	
 	private static ILikeCmntListener mIgActionListener;
     private static IFetchIgFeedsListener mIgFeedsListener;
+    private static IFetchIgFollowsListener mIgFollowsListener;
     private static IFetchCmntsListener mIgFetchCmntListener;
     private static IAuthenticationListener mIgAuthListener;
 	
@@ -69,9 +73,19 @@ public class InstagramActivity  extends Activity implements IReqStatusListener{
 //			    .getStringExtra(KEY_USER_ID),mUserFeedsListener);
 			// IG user feeds
 		    mIgWrapper.getUserFeeds(getIntent().getStringExtra(KEY_USER_ID),
-			    getIntent().getIntExtra(KEY_FEED_COUNT, 20),
+			    getIntent().getIntExtra(KEY_FEED_COUNT, 100),
 			    getIntent().getStringExtra(KEY_NXT_PG_URL),
 			    mUserFeedsListener);
+		    break;
+		case InstagramConstants.IG_REQ_USER_FOLLOWS:			
+		    // IG user feeds 
+//			mIgWrapper.getUserFeeds(getIntent()
+//			    .getStringExtra(KEY_USER_ID),mUserFeedsListener);
+			// IG user feeds
+		    mIgWrapper.getUserFollows(getIntent().getStringExtra(KEY_USER_ID),
+			    getIntent().getIntExtra(KEY_FOLLOW_COUNT, 20),
+			    getIntent().getStringExtra(KEY_NXT_PG_URL),
+			    mUserFollowsListener);
 		    break;
 		case InstagramConstants.IG_REQ_GET_CMNTS:			
 		    // Comments on media
@@ -94,6 +108,10 @@ public class InstagramActivity  extends Activity implements IReqStatusListener{
 
 	public static void setIgFeedListener(IFetchIgFeedsListener listener) {
 		mIgFeedsListener = listener;
+	}
+	
+	public static void setIgFollowListener(IFetchIgFollowsListener listener) {
+		mIgFollowsListener = listener;
 	}
 
 	public static void setIgFetchCmntListener(IFetchCmntsListener listener) {
@@ -170,6 +188,19 @@ public class InstagramActivity  extends Activity implements IReqStatusListener{
 				
 		@Override
 		public void onIgFeedsFetched(ArrayList<IgFeedHolder> feedList,
+				String nxtPgUrl) {
+			
+			InstagramActivity.this.finish();	
+		}		
+	};
+	
+	/**
+	 * User Feeds success or failure listener.
+	 */
+	private final IFetchIgFollowsListener mUserFollowsListener = new IFetchIgFollowsListener() {
+				
+		@Override
+		public void onIgFollowsFetched(ArrayList<IgFollowsHolder> followList,
 				String nxtPgUrl) {
 			
 			InstagramActivity.this.finish();	

@@ -14,6 +14,7 @@ public static final String TAG = "InstagramConstant";
 	public static final int IG_REQ_LOGIN = 100;
 	public static final int IG_REQ_USER_INFO = 101;
 	public static final int IG_REQ_USER_FEEDS = 102;
+	public static final int IG_REQ_USER_FOLLOWS = 106;
 	public static final int IG_REQ_GET_CMNTS = 103;
 	public static final int IG_REQ_POST_LIKE = 104;
 	public static final int IG_REQ_POST_CMNT = 105;

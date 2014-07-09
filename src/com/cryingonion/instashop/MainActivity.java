@@ -37,9 +37,6 @@ import android.widget.ListView;
 public class MainActivity extends Activity {
 	public static final String TAG = MainActivity.class.getSimpleName();
 	
-	public String PARSE_APPLICATION_ID = "y6RzPzQ7v2Pz9HimuPoZA3jNyc3N4zQHapASaIf7";
-	public String PARSE_CLIENT_KEY = "bTpn9m8Ggu7z21dHaU6CRbmhF3oLxB0y0OvcmEIS";
-	
 	public SharedPreferences pref;
 	protected Context context;
 	public Editor editor;
@@ -74,21 +71,6 @@ public class MainActivity extends Activity {
 		
 		pref = getSharedPreferences(getString(R.string.preference_file_key),
 				Context.MODE_PRIVATE);
-		
-		Parse.initialize(this, PARSE_APPLICATION_ID, PARSE_CLIENT_KEY);
-		ParseAnalytics.trackAppOpened(getIntent());
-		ParseUser currentUser = ParseUser.getCurrentUser();
-		
-		mIgWrapper = new InstagramWrapper(this);
-		
-		if (!mIgWrapper.isLoggedIn() && currentUser == null) {
-			navigateToLogin();
-		}
-		else
-		{
-			//navigateToMainPage();
-			Log.i(TAG, "Success Login");
-		}
 		
 		navigationDrawerHandler(savedInstanceState);
 		
@@ -192,7 +174,8 @@ public class MainActivity extends Activity {
 		}
 		// Handle action bar actions click
 		switch (item.getItemId()) {
-		case R.id.action_settings:
+		case R.id.action_search:
+			navigateToSearch();
 			return true;
 		default:
 			return super.onOptionsItemSelected(item);
@@ -211,7 +194,7 @@ public class MainActivity extends Activity {
 	public boolean onPrepareOptionsMenu(Menu menu) {
 		// if nav drawer is opened, hide the action items
 		boolean drawerOpen = mDrawerLayout.isDrawerOpen(mDrawerList);
-		menu.findItem(R.id.action_settings).setVisible(!drawerOpen);
+		menu.findItem(R.id.action_search).setVisible(!drawerOpen);
 		return super.onPrepareOptionsMenu(menu);
 	}
 
@@ -287,50 +270,14 @@ public class MainActivity extends Activity {
 		mDrawerToggle.onConfigurationChanged(newConfig);
 	}
 	
-	public void signUpToParse ()
-	{
-		ParseUser user = new ParseUser();
-		user.setUsername("my name");
-		user.setPassword("my pass");
-		user.setEmail("email@example.com");
-		  
-		// other fields can be set just like with ParseObject
-		user.put("phone", "650-555-0000");
-		  
-		user.signUpInBackground(new SignUpCallback() {
-		  public void done(ParseException e) {
-		    if (e == null) {
-		      // Hooray! Let them use the app now.
-		    } else {
-		      // Sign up didn't succeed. Look at the ParseException
-		      // to figure out what went wrong
-		    }
-		  }
-		});
-	}
-	
-	public void navigateToLogin ()
-	{
-		Intent intent = new Intent(MainActivity.this, LoginActivity.class);
-		intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-		intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
-		startActivity(intent);
-	}
-	
-	public void navigateToMainPage()
+	public void navigateToSearch()
 	{
 		mIgManager = new InstagramManager(this);
 		userId = mIgManager.getUserId();
 		
-		//Intent intent = new Intent(this, TimelineActivity.class);
-		//Intent intent = new Intent(this, ListFollowsActivity.class);
-		//Intent intent = new Intent(this, SearchPeopleActivity.class);
-		//Intent intent = new Intent(this, ListProductActivity.class);
-		
-		Intent intent = new Intent(MainActivity.this, TimelineFragment.class);
+		Intent intent = new Intent(this, SearchActivity.class);
 		intent.putExtra(InstagramActivity.KEY_USER_ID, userId);
 		intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-		intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
 		startActivity(intent);
 	}
 

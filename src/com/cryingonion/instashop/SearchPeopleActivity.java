@@ -2,18 +2,20 @@ package com.cryingonion.instashop;
 
 import java.util.ArrayList;
 
+import android.app.Fragment;
+import android.content.Context;
 import android.os.Bundle;
-import android.support.v4.app.FragmentActivity;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.View.OnClickListener;
 import android.widget.AbsListView;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.Toast;
 import android.widget.AbsListView.OnScrollListener;
 import android.widget.ListView;
 
@@ -24,7 +26,7 @@ import com.cryingonion.instashop.instagram.InstagramWrapper;
 import com.cryingonion.instashop.instagram.adapter.IgFollowsAdapter;
 import com.cryingonion.instashop.instagram.holder.IgFollowsHolder;
 
-public class SearchPeopleActivity extends FragmentActivity{
+public class SearchPeopleActivity extends Fragment{
 	
 	private ListView mLstVwFollows;
 	private View mEmptyView;
@@ -42,22 +44,26 @@ public class SearchPeopleActivity extends FragmentActivity{
 	
     private InstagramWrapper mIgWrapper;
     
-	@Override
-	protected void onCreate(Bundle savedInstanceState) {
-		// TODO Auto-generated method stub
-		super.onCreate(savedInstanceState);
-		setContentView(R.layout.activity_instagram_searchpeople);
-		init();
+    protected Context context;
+    
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+            Bundle savedInstanceState) {
 		
-		mIgWrapper = new InstagramWrapper(this);
-	}
-	
-	private void init(){
+        View rootView = inflater.inflate(R.layout.activity_instagram_searchpeople, container, false);
+        
+        context = rootView.getContext();
+        
+        mLstVwFollows = (ListView) rootView.findViewById(R.id.lst_ig_follows);
+        
+        mIgWrapper = new InstagramWrapper(context);
 		
-		mBtnSearch = (Button) findViewById(R.id.btnSearch);
+		mBtnSearch = (Button) rootView.findViewById(R.id.btnSearch);
 		mBtnSearch.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
+				
+				mLstVwFollows.invalidateViews();
+				mIgNxtPageUrl = null;
 				
 				textKeyword = mEdtTxtKeyword.getText().toString().trim();
 				
@@ -73,11 +79,13 @@ public class SearchPeopleActivity extends FragmentActivity{
 		
 		
 		
-		mEdtTxtKeyword = (EditText) findViewById(R.id.edtKeyword);
+		mEdtTxtKeyword = (EditText) rootView.findViewById(R.id.edtKeyword);
 		mEdtTxtKeyword.addTextChangedListener(textWatcherComment);
 		
-		mLstVwFollows = (ListView) findViewById(R.id.lst_ig_follows);
-		mEmptyView = findViewById(R.id.txt_empty_view);	
+		mLstVwFollows = (ListView) rootView.findViewById(R.id.lst_ig_follows);
+		mEmptyView = rootView.findViewById(R.id.txt_empty_view);
+		
+		return rootView;
 		
 	}
 	
@@ -90,6 +98,12 @@ public class SearchPeopleActivity extends FragmentActivity{
 				int count) {
 			if (TextUtils.isEmpty(s)) {
 				mBtnSearch.setEnabled(false);
+				
+				mIgFollowsList.clear();
+				
+				mIgWrapper = new InstagramWrapper(context);
+				
+				
 			} else {
 				mBtnSearch.setEnabled(true);
 			}
@@ -111,7 +125,7 @@ public class SearchPeopleActivity extends FragmentActivity{
 	private void getInstaFollows(){
 		
 		textKeyword = mEdtTxtKeyword.getText().toString();
-		InstagramWrapper wrapper = new InstagramWrapper(this);
+		InstagramWrapper wrapper = new InstagramWrapper(context);
 		wrapper.searchPeople(mIgUserId, mFollowsCount, mIgNxtPageUrl,
 				mUserFollowsListener);
 		
@@ -149,7 +163,7 @@ public class SearchPeopleActivity extends FragmentActivity{
 
 		if (null == mFollowsAdapter) {
 
-			mFollowsAdapter = new IgFollowsAdapter(this, FollowsList);
+			mFollowsAdapter = new IgFollowsAdapter(context, FollowsList);
 			mLstVwFollows.setAdapter(mFollowsAdapter);
 			mLstVwFollows.setOnScrollListener(new EndlessScrollListener());
 			mLstVwFollows.setEmptyView(mEmptyView);

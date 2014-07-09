@@ -2,6 +2,7 @@ package com.cryingonion.instashop;
 
 import java.util.ArrayList;
 
+import com.cryingonion.instashop.instagram.InstagramActivity;
 import com.cryingonion.instashop.instagram.InstagramConstants;
 import com.cryingonion.instashop.instagram.InstagramManager;
 import com.cryingonion.instashop.instagram.InstagramWrapper;
@@ -68,8 +69,13 @@ public class TimelineFragment extends Fragment {
 		mIgUserId = mIgManager.getUserId();
 		
 		//mIgUserId = getIntent().getStringExtra(InstagramActivity.KEY_USER_ID);
+//		InstagramWrapper wrapper = new InstagramWrapper(context);
+//		wrapper.getUserFeeds(mIgUserId, mFeedCount, mIgNxtPageUrl,
+//				mUserFeedsListener);
+		
+		String keyword = "shop";
 		InstagramWrapper wrapper = new InstagramWrapper(context);
-		wrapper.getUserFeeds(mIgUserId, mFeedCount, mIgNxtPageUrl,
+		wrapper.searchTag(keyword, mFeedCount, mIgNxtPageUrl,
 				mUserFeedsListener);
 	}
 	

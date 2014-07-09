@@ -1081,7 +1081,7 @@ public class InstagramManager {
 		
 		IFetchIgFeedsListener mFeedListener;
 		String mNxtUrl;
-		String mCount = "20"; // Default feedcount.	
+		String mCount = "100"; // Default feedcount.	
 		
 		public SearchTagTask (){
 			

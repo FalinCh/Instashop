@@ -10,7 +10,7 @@ public class IgFeedHolder {
 	private String mStdResImgUrl;
 	private String mCaptionText;
 	private String mMediaId;
-	
+	private String mFeedTags;
 	private String mFeedType;
 	private String mVidLowResUrl;
 	private String mVidStdResUrl;
@@ -90,6 +90,14 @@ public class IgFeedHolder {
 
 	public void setmFeedType(String mFeedType) {
 		this.mFeedType = mFeedType;
+	}
+	
+	public String getmFeedTags() {
+		return mFeedTags;
+	}
+
+	public void setmFeedTags(String mFeedTags) {
+		this.mFeedTags = mFeedTags;
 	}
 
 	public String getmVidLowResUrl() {

@@ -35,6 +35,10 @@
         <item>@drawable/ic_whats_hot</item>
     </array>
 
+    <!-- Action Bar action items -->
+    <string name="action_search">Search</string>
+    <string name="action_refresh">Refresh</string>
+
     <!-- Content Description -->
     <string name="desc_list_item_icon">Item Icon</string>
     <string name="title_fragment_setting">SettingFragment</string>
@@ -43,5 +47,9 @@
     <string name="title_fragment_wishlist">WishlistFragment</string>
     <string name="title_fragment_profile">ProfileFragment</string>
     <string name="title_fragment_timeline">TimelineFragment</string>
+    <string name="title_activity_product_details">ProductDetailsActivity</string>
+    <string name="title_activity_search">Search</string>
+    <string name="title_activity_recommendation_product_fragment">RecommendationProductFragment</string>
+    <string name="title_activity_recommendation_store_fragment">RecommendationStoreFragment</string>
 
 </resources>
