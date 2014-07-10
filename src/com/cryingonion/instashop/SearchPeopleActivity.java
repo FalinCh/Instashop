@@ -44,6 +44,8 @@ public class SearchPeopleActivity extends Fragment{
 	
     private InstagramWrapper mIgWrapper;
     
+    public int searchCount = 1;
+    
     protected Context context;
     
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -62,17 +64,34 @@ public class SearchPeopleActivity extends Fragment{
 			@Override
 			public void onClick(View v) {
 				
-				mLstVwFollows.invalidateViews();
-				mIgNxtPageUrl = null;
+				if(searchCount > 1)
+				{
+					mIgFollowsList.clear();
+					
+					mIgWrapper = new InstagramWrapper(context);
+				
+					mLstVwFollows.invalidateViews();
+					mIgNxtPageUrl = null;
+				}
 				
 				textKeyword = mEdtTxtKeyword.getText().toString().trim();
 				
 				if (textKeyword.length() != 0) {
 
-					// search keyword.
-					mIgWrapper.searchPeople(textKeyword, mFollowsCount, mIgNxtPageUrl,
-							mUserFollowsListener);
-
+					if(textKeyword.contains("shop") ||
+							textKeyword.contains("online") ||
+							textKeyword.contains("store") ||
+							textKeyword.contains("collection") ||
+							textKeyword.contains("zara") ||
+							textKeyword.contains("pullandbear") ||
+							textKeyword.contains("cloth_inc") ||
+							textKeyword.contains("shopsy"))
+					{
+						searchCount++;
+						// search keyword.
+						mIgWrapper.searchPeople(textKeyword, mFollowsCount, mIgNxtPageUrl,
+								mUserFollowsListener);
+					}
 				}
 			}
 		});
@@ -80,7 +99,7 @@ public class SearchPeopleActivity extends Fragment{
 		
 		
 		mEdtTxtKeyword = (EditText) rootView.findViewById(R.id.edtKeyword);
-		mEdtTxtKeyword.addTextChangedListener(textWatcherComment);
+		//mEdtTxtKeyword.addTextChangedListener(textWatcherComment);
 		
 		mLstVwFollows = (ListView) rootView.findViewById(R.id.lst_ig_follows);
 		mEmptyView = rootView.findViewById(R.id.txt_empty_view);
@@ -98,12 +117,6 @@ public class SearchPeopleActivity extends Fragment{
 				int count) {
 			if (TextUtils.isEmpty(s)) {
 				mBtnSearch.setEnabled(false);
-				
-				mIgFollowsList.clear();
-				
-				mIgWrapper = new InstagramWrapper(context);
-				
-				
 			} else {
 				mBtnSearch.setEnabled(true);
 			}
@@ -112,11 +125,12 @@ public class SearchPeopleActivity extends Fragment{
 		@Override
 		public void beforeTextChanged(CharSequence arg0, int arg1, int arg2,
 				int arg3) {
+			
 		}
 
 		@Override
 		public void afterTextChanged(Editable arg0) {
-
+			
 		}
 	};
 	

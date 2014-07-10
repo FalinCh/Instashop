@@ -49,12 +49,15 @@ public class SearchProductActivity extends Fragment {
 	
     private InstagramWrapper mIgWrapper;
     
+    public int searchCount = 1;
+    
     protected Context context;
+    View rootView;
     
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
             Bundle savedInstanceState) {
 		
-        View rootView = inflater.inflate(R.layout.activity_instagram_searchproduct, container, false);
+    	rootView = inflater.inflate(R.layout.activity_instagram_searchproduct, container, false);
         
         context = rootView.getContext();
         
@@ -67,30 +70,62 @@ public class SearchProductActivity extends Fragment {
 			@Override
 			public void onClick(View v) {
 				
-				mGridVwFeeds.invalidateViews();
-				mIgNxtPageUrl = null;
+				if(searchCount > 1)
+				{
+					mIgFeedList.clear();
+					mIgWrapper = new InstagramWrapper(context);
+					
+					mGridVwFeeds.invalidateViews();
+					mIgNxtPageUrl = null;
+				}
 				
 				textKeyword = mEdtTxtKeyword.getText().toString().trim();
 				
 				if (textKeyword.length() != 0) {
 
-					// search keyword.
-					mIgWrapper.searchTag(textKeyword, mFeedCount, mIgNxtPageUrl,
-							mUserFeedsListener);
-
+					if(textKeyword.contains("shop") || 
+							textKeyword.contains("online") ||
+							textKeyword.contains("store") || 
+							textKeyword.contains("collection") || 
+							textKeyword.contains("dress") ||
+							textKeyword.contains("cloth") || 
+							textKeyword.contains("toys") || 
+							textKeyword.contains("computer") ||
+							textKeyword.contains("gadget") || 
+							textKeyword.contains("device") || 
+							textKeyword.contains("kids") ||
+							textKeyword.contains("women") || 
+							textKeyword.contains("men") || 
+							textKeyword.contains("woman") ||
+							textKeyword.contains("man") || 
+							textKeyword.contains("baby") || 
+							textKeyword.contains("tech") ||
+							textKeyword.contains("beauty") || 
+							textKeyword.contains("stationary") ||
+							textKeyword.contains("case") || 
+							textKeyword.contains("phone") ||
+							textKeyword.contains("book") || 
+							textKeyword.contains("snack")
+							)
+					{
+						// search keyword.
+						searchCount++;
+						
+						mIgWrapper.searchTag(textKeyword, mFeedCount, mIgNxtPageUrl,
+								mUserFeedsListener);
+					}
 				}
 			}
 		});
 		
 		mEdtTxtKeyword = (EditText) rootView.findViewById(R.id.edtKeyword);
-		mEdtTxtKeyword.addTextChangedListener(textWatcherComment);
+		//mEdtTxtKeyword.addTextChangedListener(textWatcherComment);
 		
 		mGridVwFeeds = (GridView) rootView.findViewById(R.id.grid_ig_feeds);
 		mEmptyView = rootView.findViewById(R.id.txt_empty_view);	
 		
 		return rootView;
 	}
-	
 	
 	// To enable the Post button only when edit-text is non-empty
 	TextWatcher textWatcherComment = new TextWatcher() {
@@ -100,10 +135,6 @@ public class SearchProductActivity extends Fragment {
 				int count) {
 			if (TextUtils.isEmpty(s)) {
 				mBtnSearch.setEnabled(false);
-				mIgFeedList.clear();
-				mIgWrapper = new InstagramWrapper(context);
-				
-				
 			} else {
 				mBtnSearch.setEnabled(true);
 			}
@@ -112,6 +143,15 @@ public class SearchProductActivity extends Fragment {
 		@Override
 		public void beforeTextChanged(CharSequence arg0, int arg1, int arg2,
 				int arg3) {
+			
+			if (!TextUtils.isEmpty(arg0)) {
+				mBtnSearch.setEnabled(true);
+			}
+			else
+			{
+				mBtnSearch.setEnabled(false);
+			}
+			
 		}
 
 		@Override

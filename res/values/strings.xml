@@ -28,11 +28,11 @@
     <!-- Keep them in order as the titles are in -->
     <array name="nav_drawer_icons">
         <item>@drawable/ic_home</item>
-        <item>@drawable/ic_people</item>
-        <item>@drawable/ic_photos</item>
-        <item>@drawable/ic_communities</item>
-        <item>@drawable/ic_pages</item>
-        <item>@drawable/ic_whats_hot</item>
+        <item>@drawable/ic_discover</item>
+        <item>@drawable/ic_recommendation</item>
+        <item>@drawable/ic_wishlist</item>
+        <item>@drawable/ic_profile</item>
+        <item>@drawable/ic_settings</item>
     </array>
 
     <!-- Action Bar action items -->
@@ -51,5 +51,6 @@
     <string name="title_activity_search">Search</string>
     <string name="title_activity_recommendation_product_fragment">RecommendationProductFragment</string>
     <string name="title_activity_recommendation_store_fragment">RecommendationStoreFragment</string>
+    <string name="title_activity_search_product_by_category">SearchProductByCategoryActivity</string>
 
 </resources>

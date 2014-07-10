@@ -21,6 +21,8 @@ public class SearchActivity extends Activity {
         
         ActionBar actionBar = getActionBar();
         actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
+        // Enabling Up / Back navigation
+        actionBar.setDisplayHomeAsUpEnabled(true);
         
         searchProduct = actionBar.newTab().setText("Product");
         searchStore = actionBar.newTab().setText("Store");
@@ -48,7 +50,7 @@ public class SearchActivity extends Activity {
     	}
     	
     	public void onTabReselected(Tab tab, FragmentTransaction ft) {
-    		// nothing done here
+    		
     	}
     }
 }

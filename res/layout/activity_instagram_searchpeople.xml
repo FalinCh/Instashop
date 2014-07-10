@@ -9,6 +9,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/margin_between_content"
+        android:layout_marginLeft="@dimen/margin_between_content" 
+        android:layout_marginRight="@dimen/margin_between_content"
         android:inputType="text|textNoSuggestions"/>
     
     <!-- Post Cmnt button -->
@@ -16,9 +18,10 @@
         android:id="@+id/btnSearch"
         android:layout_width="100dp"
         android:layout_height="40dp"
-        android:enabled="false"
         android:gravity="center"
         android:layout_marginBottom="@dimen/margin_between_content"
+        android:layout_marginLeft="@dimen/margin_between_content" 
+        android:layout_marginRight="@dimen/margin_between_content"
         android:text="Search" >
         <requestFocus />
     </Button>
@@ -28,6 +31,8 @@
         android:id="@+id/lst_ig_follows"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_marginLeft="@dimen/margin_between_content" 
+        android:layout_marginRight="@dimen/margin_between_content"
         android:cacheColorHint="#00000000"
         android:listSelector="#00600D0B"
         android:scrollbars="none" />

@@ -2,13 +2,15 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical" >
+    android:orientation="vertical">
 
     <EditText 
         android:id="@+id/edtKeyword"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/margin_between_content"
+        android:layout_marginLeft="@dimen/margin_between_content" 
+        android:layout_marginRight="@dimen/margin_between_content" 
         android:inputType="text|textNoSuggestions"/>
     
     <!-- Post Cmnt button -->
@@ -16,9 +18,10 @@
         android:id="@+id/btnSearch"
         android:layout_width="100dp"
         android:layout_height="40dp"
-        android:enabled="false"
         android:gravity="center"
         android:layout_marginBottom="@dimen/margin_between_content"
+        android:layout_marginLeft="@dimen/margin_between_content" 
+        android:layout_marginRight="@dimen/margin_between_content" 
         android:text="Search" >
         <requestFocus />
     </Button>
@@ -42,5 +45,86 @@
         android:text="No content"
         android:textColor="@android:color/white"
         android:visibility="gone" />
+    
+    <LinearLayout 
+        android:layout_width="fill_parent"
+ 	    android:layout_height="wrap_content"
+ 	    android:numColumns="auto_fit"
+ 	    android:verticalSpacing="1dp"
+	    android:horizontalSpacing="1dp"
+	    android:stretchMode="columnWidth"
+	    android:layout_marginLeft="3dp" 
+	    android:orientation="vertical">
+        
+        <Button
+	        android:id="@+id/btnCategoryWomen"
+	        android:layout_width="wrap_content"
+        	android:layout_height="50dp"
+	        android:enabled="false"
+	        android:background="@color/black"
+	        android:textColor="@android:color/white"
+	        android:layout_marginLeft="@dimen/margin_between_content" 
+	        android:text="Women Apparels" >
+	    </Button>
+	    
+        <Button
+	        android:id="@+id/btnCategoryMan"
+	        android:layout_width="wrap_content"
+        	android:layout_height="50dp"
+	        android:enabled="false"
+	        android:background="@color/black"
+	        android:textColor="@android:color/white"
+	        android:layout_marginLeft="@dimen/margin_between_content" 
+	        android:text="Men Apparels" >
+	    </Button>
+        
+        <Button
+	        android:id="@+id/btnCategoryKids"
+	        android:layout_width="wrap_content"
+        	android:layout_height="50dp"
+	        android:enabled="false"
+	        android:background="@color/black"
+	        android:textColor="@android:color/white"
+	        android:layout_marginLeft="@dimen/margin_between_content" 
+	        android:text="Kids Apparels" >
+	    </Button>
+	    
+        <Button
+	        android:id="@+id/btnCategoryBaby"
+	        android:layout_width="wrap_content"
+        	android:layout_height="50dp"
+	        android:enabled="false"
+	        android:background="@color/black"
+	        android:textColor="@android:color/white"
+	        android:layout_marginLeft="@dimen/margin_between_content" 
+	        android:text="Baby Stuffs" >
+	    </Button>
+        	    
+        <Button
+	        android:id="@+id/btnCategoryToys"
+	        android:layout_width="wrap_content"
+        	android:layout_height="50dp"
+	        android:enabled="false"
+	        android:background="@color/black"
+	        android:textColor="@android:color/white"
+	        android:layout_marginLeft="@dimen/margin_between_content" 
+	        android:text="Toys and Collectibles" >
+	    </Button>
+	    
+        <Button
+	        android:id="@+id/btnCategoryTech"
+	        android:layout_width="wrap_content"
+        	android:layout_height="50dp"
+	        android:enabled="false"
+	        android:background="@color/black"
+	        android:textColor="@android:color/white"
+	        android:layout_marginLeft="@dimen/margin_between_content" 
+	        android:text="Technology and Gadgets" >
+	    </Button>
+        
+        
+    </LinearLayout>
+    
+    
 
 </LinearLayout>

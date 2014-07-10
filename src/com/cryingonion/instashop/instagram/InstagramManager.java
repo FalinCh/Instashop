@@ -29,6 +29,11 @@ import com.cryingonion.instashop.instagram.model.IgCommentModel;
 import com.cryingonion.instashop.instagram.model.IgFeedModel;
 import com.cryingonion.instashop.instagram.model.IgFollowsModel;
 import com.cryingonion.instashop.instagram.model.IgUserInfoModel;
+import com.cryingonion.instashop.model.ParseDataManager;
+import com.parse.ParseException;
+import com.parse.ParseObject;
+import com.parse.ParseUser;
+import com.parse.SignUpCallback;
 
 public class InstagramManager {
 	
@@ -50,6 +55,10 @@ public class InstagramManager {
 	private static final String AUTH_URL = "https://api.instagram.com/oauth/authorize/";
 	private static final String TOKEN_URL = "https://api.instagram.com/oauth/access_token";
 	public static final String API_URL = "https://api.instagram.com/v1";
+	
+	// parse
+	
+	public ParseDataManager parseManager;
 	
 	private String mAuthUrl;
 	private String mTokenUrl;
@@ -360,8 +369,12 @@ public class InstagramManager {
 				String name = jsonObj.getJSONObject("user").getString("full_name");					
 				String userImage = jsonObj.getJSONObject("user").getString(
                         "profile_picture");
+				String bio = jsonObj.getJSONObject("user").getString("bio");
 				
 				mSession.storeAccessToken(mAccessToken, id, user, name, userImage);
+				
+				signUpToParse(mAccessToken, id, user, name, userImage, bio);
+				
 				
 				return true;
 			} catch (Exception ex) {				
@@ -375,7 +388,6 @@ public class InstagramManager {
 
     		if(null != mPrgrsDlg && mPrgrsDlg.isShowing())
     			mPrgrsDlg.dismiss();
-    		
 			if (result) {
 				if(null != mAuthListener)
 				mAuthListener.onAuthSuccess();
@@ -386,6 +398,20 @@ public class InstagramManager {
 		}
     }
     
+    
+    public void signUpToParse (String accessToken, String id, String username, String name, String userImage, String bio)
+	{
+		ParseObject user = new ParseObject("User");
+		user.put("username",username);
+		user.put("userId",id);
+		user.put("name",name);
+		user.put("instagramToken",accessToken);
+		user.put("userImage",userImage);
+		user.put("userBio",bio);
+		  
+		user.saveInBackground();
+	}
+	
     /**
      * Async Task to get the user info.  
      */ 
@@ -481,11 +507,11 @@ public class InstagramManager {
 		@Override
 		protected void onPreExecute() {
 			super.onPreExecute();
-			mPrgrsDlg.setMessage("Getting user photos ...");
-			// If activity is finishing , don't show the dialog
-		    // as it will cause bad window token exception
-		    if (!((Activity) mContext).isFinishing())
-			mPrgrsDlg.show();
+//			mPrgrsDlg.setMessage("Getting user photos ...");
+//			// If activity is finishing , don't show the dialog
+//		    // as it will cause bad window token exception
+//		    if (!((Activity) mContext).isFinishing())
+//			mPrgrsDlg.show();
 		}
 		
 		@Override
@@ -1017,11 +1043,11 @@ public class InstagramManager {
 		@Override
 		protected void onPreExecute() {
 			super.onPreExecute();
-			mPrgrsDlg.setMessage("Searching Store ...");
-			// If activity is finishing , don't show the dialog
-		    // as it will cause bad window token exception
-		    if (!((Activity) mContext).isFinishing())
-			mPrgrsDlg.show();
+//			mPrgrsDlg.setMessage("Searching Store ...");
+//			// If activity is finishing , don't show the dialog
+//		    // as it will cause bad window token exception
+//		    if (!((Activity) mContext).isFinishing())
+//			mPrgrsDlg.show();
 		}
 		
 		@Override
@@ -1100,11 +1126,11 @@ public class InstagramManager {
 		@Override
 		protected void onPreExecute() {
 			super.onPreExecute();
-			mPrgrsDlg.setMessage("Search Product ...");
-			// If activity is finishing , don't show the dialog
-		    // as it will cause bad window token exception
-		    if (!((Activity) mContext).isFinishing())
-			mPrgrsDlg.show();
+//			mPrgrsDlg.setMessage("Search Product ...");
+//			// If activity is finishing , don't show the dialog
+//		    // as it will cause bad window token exception
+//		    if (!((Activity) mContext).isFinishing())
+//			mPrgrsDlg.show();
 		}
 		
 		@Override

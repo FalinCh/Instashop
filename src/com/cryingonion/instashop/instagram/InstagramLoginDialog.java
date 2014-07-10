@@ -69,10 +69,10 @@ private static final String TAG = "Instagram-WebView";
 
 		if (display.getWidth() < display.getHeight()) {
 		    dimensions[0] = 0.87 * display.getWidth();
-		    dimensions[1] = 0.55 * display.getHeight();
+		    dimensions[1] = 0.65 * display.getHeight();
 		} else {
 		    dimensions[0] = 0.75 * display.getWidth();
-		    dimensions[1] = 0.55 * display.getHeight();
+		    dimensions[1] = 0.65 * display.getHeight();
 		}
 
 		addContentView(mContent, new FrameLayout.LayoutParams(

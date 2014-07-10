@@ -7,14 +7,13 @@
         android:id="@+id/box_followsinfo"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/margin" >
+        android:layout_marginTop="@dimen/margin_between_content" >
         
         <ImageView
 	        android:id="@+id/imgvw_ig_profpic"
 	        android:layout_width="50dp"
 	        android:layout_height="50dp"
-	        android:layout_alignParentLeft="true"  
-	        android:layout_marginLeft="@dimen/margin"    
+	        android:layout_alignParentLeft="true"      
 	        android:background="@drawable/default_image_square"/>
 	
         <RelativeLayout

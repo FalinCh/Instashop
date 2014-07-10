@@ -58,7 +58,8 @@
         </activity>
         <activity
             android:name="com.cryingonion.instashop.SearchActivity"
-            android:label="@string/title_activity_search" >
+            android:label="@string/title_activity_search"
+            android:parentActivityName="com.cryingonion.instashop.MainActivity" >
         </activity>
         <!-- <activity -->
         <!-- android:name="com.cryingonion.instashop.SearchPeopleActivity" -->
@@ -112,6 +113,10 @@
         <activity
             android:name="com.cryingonion.instashop.RecommendationStoreFragment"
             android:label="@string/title_activity_recommendation_store_fragment" >
+        </activity>
+        <activity
+            android:name="com.cryingonion.instashop.SearchProductByCategoryActivity"
+            android:label="@string/title_activity_search_product_by_category" >
         </activity>
     </application>
 
