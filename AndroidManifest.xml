@@ -118,6 +118,10 @@
             android:name="com.cryingonion.instashop.SearchProductByCategoryActivity"
             android:label="@string/title_activity_search_product_by_category" >
         </activity>
+        <activity
+            android:name="com.cryingonion.instashop.SearchProductActivity"
+            android:label="@string/title_activity_activity_search_product" >
+        </activity>
     </application>
 
 </manifest>

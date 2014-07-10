@@ -52,5 +52,6 @@
     <string name="title_activity_recommendation_product_fragment">RecommendationProductFragment</string>
     <string name="title_activity_recommendation_store_fragment">RecommendationStoreFragment</string>
     <string name="title_activity_search_product_by_category">SearchProductByCategoryActivity</string>
+    <string name="title_activity_activity_search_product">ActivitySearchProduct</string>
 
 </resources>

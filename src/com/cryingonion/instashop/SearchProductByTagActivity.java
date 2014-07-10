@@ -30,7 +30,7 @@ import android.widget.GridView;
 import android.widget.ListView;
 import android.widget.AbsListView.OnScrollListener;
 
-public class SearchProductActivity extends Fragment {
+public class SearchProductByTagActivity extends Fragment {
 
 	private GridView mGridVwFeeds;
 	private View mEmptyView;

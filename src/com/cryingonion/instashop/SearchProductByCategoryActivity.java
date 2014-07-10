@@ -8,10 +8,13 @@ import com.cryingonion.instashop.instagram.InstagramWrapper;
 import com.cryingonion.instashop.instagram.adapter.IgFeedAdapterGrid;
 import com.cryingonion.instashop.instagram.holder.IgFeedHolder;
 import com.cryingonion.instashop.instagram.listener.IFetchIgFeedsListener;
+import com.cryingonion.instashop.model.CategoryDetail;
 
 import android.os.Bundle;
 import android.app.Activity;
+import android.app.Fragment;
 import android.content.Context;
+import android.content.Intent;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
@@ -22,32 +25,45 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.View.OnClickListener;
 import android.widget.AbsListView;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.GridView;
+import android.widget.LinearLayout;
+import android.widget.SimpleAdapter;
 import android.widget.AbsListView.OnScrollListener;
+import android.widget.AdapterView.OnItemClickListener;
+import android.widget.ListView;
 
-public class SearchProductByCategoryActivity extends Activity {
+public class SearchProductByCategoryActivity extends Fragment {
 
+	private ArrayList<String> listCategory1;
+	
+	private ArrayList<CategoryDetail> listCategory2;
+	private ArrayList<String> listCategory2Title;
+	
+	private ListView mListCategory1;
+	private ListView mListCategory2;
+	
+	private LinearLayout mBoxSearchByCategory;
+	private Button mTextTempSearchTag;
+	
+	private LinearLayout mBoxSearchResult;
+	private Button mTextSearchTag;
 	private GridView mGridVwFeeds;
 	private View mEmptyView;
-	private EditText mEdtTxtKeyword;
-	private Button mBtnSearch;
 	
-	private String textKeyword = "";
+	private String tempSelectedCategory1;
+	private String tempSelectedCategory2Tag;
 	
 	private ArrayList<IgFeedHolder> mIgFeedList;
 	private IgFeedAdapterGrid mFeedAdapter;	
 	
-	private InstagramManager mIgManager;
-	private String mIgUserId; 
-    private String mIgNxtPageUrl = null;
+	private InstagramWrapper mIgWrapper;
+	private String mIgNxtPageUrl = null;
     private int mFeedCount = 100; // default feed count 
 	
-    private InstagramWrapper mIgWrapper;
-    
-    public int searchCount = 1;
-    
     protected Context context;
     View rootView;
     
@@ -58,87 +74,119 @@ public class SearchProductByCategoryActivity extends Activity {
         
         context = rootView.getContext();
         
+        mListCategory1 = (ListView) rootView.findViewById(R.id.lst_category1);
+        mListCategory2 = (ListView) rootView.findViewById(R.id.lst_category2);
+        
+        mBoxSearchByCategory = (LinearLayout) rootView.findViewById(R.id.boxSearchByCategory);
+        mBoxSearchByCategory.setVisibility(View.VISIBLE);
+        mBoxSearchByCategory.setEnabled(true);
+        
+        mTextTempSearchTag = (Button) rootView.findViewById(R.id.textTempSearchTag);
+        
+        mBoxSearchResult = (LinearLayout) rootView.findViewById(R.id.boxSearchResult);
+        mBoxSearchResult.setVisibility(View.INVISIBLE);
+        mBoxSearchResult.setEnabled(false);
+        
+        mTextSearchTag = (Button)rootView.findViewById(R.id.textSearchTag);
         mGridVwFeeds = (GridView) rootView.findViewById(R.id.grid_ig_feeds);
-        
-        mIgWrapper = new InstagramWrapper(context);
-        
-        mBtnSearch = (Button) rootView.findViewById(R.id.btnSearch);
-		mBtnSearch.setOnClickListener(new OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				
-				if(searchCount > 1)
-				{
-					mIgFeedList.clear();
-					mIgWrapper = new InstagramWrapper(context);
-					
-					mGridVwFeeds.invalidateViews();
-					mIgNxtPageUrl = null;
-				}
-				
-				searchCount++;
-				
-				textKeyword = mEdtTxtKeyword.getText().toString().trim();
-				
-				if (textKeyword.length() != 0) {
+        mEmptyView = rootView.findViewById(R.id.txt_empty_view);	
 
-					// search keyword.
-					mIgWrapper.searchTag(textKeyword, mFeedCount, mIgNxtPageUrl,
-							mUserFeedsListener);
-
-				}
-			}
-		});
-		
-		mEdtTxtKeyword = (EditText) rootView.findViewById(R.id.edtKeyword);
-		//mEdtTxtKeyword.addTextChangedListener(textWatcherComment);
-		
-		mGridVwFeeds = (GridView) rootView.findViewById(R.id.grid_ig_feeds);
-		mEmptyView = rootView.findViewById(R.id.txt_empty_view);	
-		
-		return rootView;
+        generateCategory1();
+        
+        return rootView;
 	}
 	
-	// To enable the Post button only when edit-text is non-empty
-	TextWatcher textWatcherComment = new TextWatcher() {
-
-		@Override
-		public void onTextChanged(CharSequence s, int start, int before,
-				int count) {
-			if (TextUtils.isEmpty(s)) {
-				mBtnSearch.setEnabled(false);
-			} else {
-				mBtnSearch.setEnabled(true);
-			}
-		}
-
-		@Override
-		public void beforeTextChanged(CharSequence arg0, int arg1, int arg2,
-				int arg3) {
-			
-			if (!TextUtils.isEmpty(arg0)) {
-				mBtnSearch.setEnabled(true);
-			}
-			else
+    
+	public void generateCategory1()
+	{
+		listCategory1 = new ArrayList<String>();
+		listCategory1.add("Women");
+		listCategory1.add("Men");
+		listCategory1.add("Kids");
+		listCategory1.add("Technology");
+		listCategory1.add("Foods");
+		listCategory2 = new ArrayList<CategoryDetail>();
+		
+		ArrayAdapter<String> arrayAdapter =      
+                new ArrayAdapter<String>(context, android.R.layout.simple_list_item_1, listCategory1);
+		
+		mListCategory1.setAdapter(arrayAdapter);
+		
+		// register onClickListener to handle click events on each item
+		mListCategory1.setOnItemClickListener(new OnItemClickListener()
+		{
+	       // argument position gives the index of item which is clicked
+	       public void onItemClick(AdapterView<?> arg0, View v,int position, long arg3)
+	       {
+	    	   String selectedCategory=listCategory1.get(position);
+	    	   mTextTempSearchTag.setText(selectedCategory);
+	    	   tempSelectedCategory1 = selectedCategory;
+	    	   
+	    	   if(position==0)
+	    	   {
+	    		   generateCategoryForWomen();
+	    	   }
+	    	   else if(position==1)
+	    	   {
+	    		   generateCategoryForMen();
+	    	   }
+	    	   else if(position==2)
+	    	   {
+	    		   generateCategoryForKids();
+	    	   }
+	    	   else if(position==3)
+	    	   {
+	    		   generateCategoryForTechnology();
+	    	   }
+	    	   else if(position==4)
+	    	   {
+	    		   generateCategoryForFood();
+	    	   }
+	       	}
+		});
+		
+	}
+	
+	public void generateListCategory2(ArrayList<String> listCategory2Titles)
+	{
+		ArrayAdapter<String> arrayAdapter =      
+                new ArrayAdapter<String>(context, android.R.layout.simple_list_item_1, listCategory2Titles);
+		
+		mListCategory2.setAdapter(arrayAdapter);
+		
+		// register onClickListener to handle click events on each item
+		mListCategory2.setOnItemClickListener(new OnItemClickListener()
+		{
+	        // argument position gives the index of item which is clicked
+			public void onItemClick(AdapterView<?> arg0, View v,int position, long arg3)
 			{
-				mBtnSearch.setEnabled(false);
-			}
-			
-		}
-
-		@Override
-		public void afterTextChanged(Editable arg0) {
-
-		}
-	};
-	
-	
+				String selectedCategory=listCategory2.get(position).getCategoryName();
+				
+				String selectedCategoryTag=listCategory2.get(position).getCategoryTag();
+	    	    String selectedCategoryPath=listCategory2.get(position).getCategoryPath();
+	    	    
+	    	    tempSelectedCategory2Tag = selectedCategoryTag;
+				
+	    	    
+	    	    mTextTempSearchTag.setText(tempSelectedCategory1 + " > " + selectedCategory);
+	    	    mTextSearchTag.setText(tempSelectedCategory1 + " > " + selectedCategory);
+	    	    
+	    	    mBoxSearchByCategory.setVisibility(View.INVISIBLE);
+	    	    mBoxSearchByCategory.setEnabled(false);
+	            mBoxSearchResult.setVisibility(View.VISIBLE);
+	            mBoxSearchResult.setEnabled(true);
+	            
+	            mIgWrapper = new InstagramWrapper(context);
+	            
+	            mIgWrapper.searchTag(selectedCategoryTag, mFeedCount, mIgNxtPageUrl, mUserFeedsListener);
+	       	}
+		});
+	}
 	
 	private void getInstaFeeds(){
 		
-		textKeyword = mEdtTxtKeyword.getText().toString();
 		InstagramWrapper wrapper = new InstagramWrapper(context);
-		wrapper.searchTag(textKeyword, mFeedCount, mIgNxtPageUrl,
+		wrapper.searchTag(tempSelectedCategory2Tag, mFeedCount, mIgNxtPageUrl,
 				mUserFeedsListener);
 	}
 	
@@ -231,6 +279,115 @@ public class SearchProductByCategoryActivity extends Activity {
 		public void resetLoading() {
 			loading = false;
 		}
+	}
+	
+	public void generateCategoryForWomen()
+	{
+		listCategory2Title = new ArrayList<String>();
+		listCategory2Title.add("All");
+		listCategory2Title.add("Dress");
+		listCategory2Title.add("Blazer");
+		listCategory2Title.add("Shoes");
+		listCategory2Title.add("Skirts");
+		listCategory2Title.add("Handbags");
+		listCategory2Title.add("Accessories");
+		listCategory2Title.add("Beauty");
+		
+		listCategory2 = new ArrayList<CategoryDetail>();
+		listCategory2.add(new CategoryDetail ("All", "womencloth", "Women > All"));
+		listCategory2.add(new CategoryDetail ("Dress", "dress", "Women > Dress"));
+		listCategory2.add(new CategoryDetail ("Blazer","blazer","Women > Blazer"));
+		listCategory2.add(new CategoryDetail ("Shoes","heels","Women > Shoes"));
+		listCategory2.add(new CategoryDetail ("Skirts","skirt","Women > Skirts"));
+		listCategory2.add(new CategoryDetail ("Handbags","clutch","Women > Handbags"));
+		listCategory2.add(new CategoryDetail ("Accessories","jewelry","Women > Accessories"));
+		listCategory2.add(new CategoryDetail ("Beauty","cosmetic","Women > Beauty"));
+		
+		generateListCategory2(listCategory2Title);
+	}
+	
+	public void generateCategoryForMen()
+	{
+		listCategory2Title = new ArrayList<String>();
+		listCategory2Title.add("All");
+		listCategory2Title.add("Shirts");
+		listCategory2Title.add("T-Shirt");
+		listCategory2Title.add("Shoes");
+		listCategory2Title.add("Tie");
+		listCategory2Title.add("Accessories");	
+		
+		listCategory2 = new ArrayList<CategoryDetail>();
+		listCategory2.add(new CategoryDetail ("All", "mencloth", "Men > All"));
+		listCategory2.add(new CategoryDetail ("Shirts", "shirt", "Men > Shirts"));
+		listCategory2.add(new CategoryDetail ("T-Shirt","tees","Men > T-Shirt"));
+		listCategory2.add(new CategoryDetail ("Shoes","pantovel","Men > Shoes"));
+		listCategory2.add(new CategoryDetail ("Tie","tie","Men > Tie"));
+		listCategory2.add(new CategoryDetail ("Accessories","watch","Men > Accessories"));
+		
+		generateListCategory2(listCategory2Title);
+	}
+	
+	public void generateCategoryForKids()
+	{
+		listCategory2Title = new ArrayList<String>();
+		listCategory2Title.add("All");
+		listCategory2Title.add("Shirts");
+		listCategory2Title.add("T-Shirt");
+		listCategory2Title.add("Shoes");
+		listCategory2Title.add("Accessories");	
+		
+		listCategory2 = new ArrayList<CategoryDetail>();
+		listCategory2.add(new CategoryDetail ("All", "kidswear", "Kids > All"));
+		listCategory2.add(new CategoryDetail ("Shirts", "kidshirt", "Kids > Shirts"));
+		listCategory2.add(new CategoryDetail ("T-Shirt","kidtshirt","Kids > T-Shirt"));
+		listCategory2.add(new CategoryDetail ("Shoes","kidshoes","Kids > Shoes"));
+		listCategory2.add(new CategoryDetail ("Accessories","kidhat","Kids > Accessories"));
+		
+		generateListCategory2(listCategory2Title);
+	}
+	
+	public void generateCategoryForTechnology()
+	{
+		listCategory2Title = new ArrayList<String>();
+		listCategory2Title.add("All");
+		listCategory2Title.add("Phones");
+		listCategory2Title.add("Laptops");
+		listCategory2Title.add("Tablets");
+		listCategory2Title.add("Consoles");	
+		listCategory2Title.add("Case");
+		listCategory2Title.add("Accessories");
+		
+		listCategory2 = new ArrayList<CategoryDetail>();
+		listCategory2.add(new CategoryDetail ("All", "technology", "Technology > All"));
+		listCategory2.add(new CategoryDetail ("Phones", "phonesale", "Technology > Phones"));
+		listCategory2.add(new CategoryDetail ("Laptops","computer","Technology > Laptops"));
+		listCategory2.add(new CategoryDetail ("Tablets","tablets","Technology > Tablets"));
+		listCategory2.add(new CategoryDetail ("Consoles","console","Technology > Consoles"));	
+		listCategory2.add(new CategoryDetail ("Case", "case", "Technology > Case"));
+		listCategory2.add(new CategoryDetail ("Accessories","pluggy","Technology > Accessories"));
+		
+		generateListCategory2(listCategory2Title);
+	}
+	
+	public void generateCategoryForFood()
+	{
+		listCategory2Title = new ArrayList<String>();
+		listCategory2Title.add("All");
+		listCategory2Title.add("Snack");
+		listCategory2Title.add("Japanese Snack");
+		listCategory2Title.add("Dessert");
+		listCategory2Title.add("Delivery");	
+		listCategory2Title.add("Fast Food");
+		
+		listCategory2 = new ArrayList<CategoryDetail>();
+		listCategory2.add(new CategoryDetail ("All", "restaurant", "Food > All"));
+		listCategory2.add(new CategoryDetail ("Snack", "snack", "Food > Snack"));
+		listCategory2.add(new CategoryDetail ("Japanese Snack","japanesesnack","Food > Japanese Snack"));
+		listCategory2.add(new CategoryDetail ("Dessert","dessert","Food > Dessert"));
+		listCategory2.add(new CategoryDetail ("Delivery","delivery","Food > Delivery"));	
+		listCategory2.add(new CategoryDetail ("Fast Food", "fast food", "Food > Fast Foods"));
+		
+		generateListCategory2(listCategory2Title);
 	}
 
 }

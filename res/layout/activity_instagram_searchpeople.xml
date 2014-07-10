@@ -22,6 +22,7 @@
         android:layout_marginBottom="@dimen/margin_between_content"
         android:layout_marginLeft="@dimen/margin_between_content" 
         android:layout_marginRight="@dimen/margin_between_content"
+        android:background="@color/purple"
         android:text="Search" >
         <requestFocus />
     </Button>

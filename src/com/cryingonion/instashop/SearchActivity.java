@@ -10,9 +10,10 @@ import android.app.Fragment;
 
 public class SearchActivity extends Activity {
 	
-	ActionBar.Tab searchProduct, searchStore;
+	ActionBar.Tab searchProductCategory, searchProductTag, searchStore;
 	
-	Fragment fragmentSearchProduct = new SearchProductActivity();
+	Fragment fragmentSearchProductByCategory = new SearchProductByCategoryActivity();
+	Fragment fragmentSearchProductByTag = new SearchProductByTagActivity();
 	Fragment fragmentSearchStore = new SearchPeopleActivity();
 	
     protected void onCreate(Bundle savedInstanceState) {
@@ -24,13 +25,16 @@ public class SearchActivity extends Activity {
         // Enabling Up / Back navigation
         actionBar.setDisplayHomeAsUpEnabled(true);
         
-        searchProduct = actionBar.newTab().setText("Product");
+        searchProductCategory = actionBar.newTab().setText("Category");
+        searchProductTag = actionBar.newTab().setText("Tag");
         searchStore = actionBar.newTab().setText("Store");
         
-        searchProduct.setTabListener(new MyTabListener(fragmentSearchProduct));
+        searchProductCategory.setTabListener(new MyTabListener(fragmentSearchProductByCategory));
+        searchProductTag.setTabListener(new MyTabListener(fragmentSearchProductByTag));
         searchStore.setTabListener(new MyTabListener(fragmentSearchStore));
         
-        actionBar.addTab(searchProduct);
+        actionBar.addTab(searchProductCategory);
+        actionBar.addTab(searchProductTag);
         actionBar.addTab(searchStore);
     }
     
