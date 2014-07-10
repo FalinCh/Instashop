@@ -25,8 +25,12 @@ import com.cryingonion.instashop.instagram.InstagramActivity;
 import com.cryingonion.instashop.instagram.InstagramConstants;
 import com.cryingonion.instashop.instagram.InstagramVideoDetailActivity;
 import com.cryingonion.instashop.instagram.InstagramWrapper;
+import com.cryingonion.instashop.ProductDetailsActivity;
 import com.cryingonion.instashop.R;
+import com.cryingonion.instashop.StoreDetailsActivity;
 import com.cryingonion.instashop.instagram.InstagramCmntDialogFrag;
+import com.cryingonion.instashop.instagram.adapter.IgFeedAdapterGrid.ViewHolder;
+import com.cryingonion.instashop.instagram.holder.IgFeedHolder;
 import com.cryingonion.instashop.instagram.holder.IgFollowsHolder;
 import com.cryingonion.instashop.instagram.utils.AppUtils;
 import com.cryingonion.instashop.instagram.utils.ImageDownloader;
@@ -37,6 +41,8 @@ public class IgFollowsAdapter extends BaseAdapter {
 	private LayoutInflater mInflater;
 	private ArrayList<IgFollowsHolder> mIgFollowsList;
 
+	private IgFollowsHolder followsHolder;
+	
 	public IgFollowsAdapter(Context context) {
 
 		mContext = context;
@@ -115,68 +121,46 @@ public class IgFollowsAdapter extends BaseAdapter {
 		convertView.setTag(holder);
 		holder = (ViewHolder) convertView.getTag();
 		
-		final IgFollowsHolder FollowsHolder = mIgFollowsList.get(position);
+		followsHolder = mIgFollowsList.get(position);
 		
 		
 		// Set the profile image
-		if (AppUtils.isUrlImage(FollowsHolder.getmProfilePictureUrl())) {
+		if (AppUtils.isUrlImage(followsHolder.getmProfilePictureUrl())) {
 
 			ImageDownloader.setSquareImg(mContext,holder.mImgVwProfile,
-					FollowsHolder.getmProfilePictureUrl(),
+					followsHolder.getmProfilePictureUrl(),
 					R.drawable.icon,false,true);	    
 		}
 		
 		
 		// Full Name
-		holder.mTxtVwName.setText(FollowsHolder.getmFullName());
+		holder.mTxtVwName.setText(followsHolder.getmFullName());
 		
 		// User Name
-		holder.mTxtVwUsername.setText(FollowsHolder.getmUsername());
+		holder.mTxtVwUsername.setText(followsHolder.getmUsername());
 		
-//		holder.mLinearLayoutVwBoxFollowInfo.setOnClickListener(new OnClickListener() {
-//
-//			@Override
-//			public void onClick(View v) {
-//
-//				InstagramWrapper wrapper = new InstagramWrapper(mContext);
-//
-//				if (wrapper.isLoggedIn()) {
-//					InstagramCmntDialogFrag cmntDlgFrag = new InstagramCmntDialogFrag(
-//							mContext, FollowsHolder.getmMediaId());
-//					cmntDlgFrag.show(((FragmentActivity) mContext)
-//							.getSupportFragmentManager(), "IgCmntDialog");
-//				} else {
-//
-//					// To login instagram
-//					Intent intent = new Intent(mContext, InstagramActivity.class);
-//					intent.putExtra(InstagramConstants.IG_REQUEST,
-//							InstagramConstants.IG_REQ_LOGIN);
-//
-//					InstagramActivity.setIgAuthListener(new IAuthenticationListener() {
-//
-//						@Override
-//						public void onAuthSuccess() {
-//							InstagramCmntDialogFrag cmntDlgFrag = new InstagramCmntDialogFrag(
-//									mContext, FollowsHolder.getmMediaId());
-//
-//							FragmentTransaction transaction = ((FragmentActivity) mContext)
-//									.getSupportFragmentManager()
-//									.beginTransaction();
-//							transaction.add(cmntDlgFrag, "IgCmntDialog");
-//							transaction.commitAllowingStateLoss();
-//						}
-//
-//						@Override
-//						public void onAuthFail(String error) {
-//
-//						}
-//					});
-//
-//					mContext.startActivity(intent);
-//				}				
-//			}
-//		});
-//		
+		holder.mLinearLayoutVwBoxFollowInfo.setOnClickListener(new OnClickListener() {
+
+			@Override
+			public void onClick(View v) {
+
+				Intent intent = null;
+				Bundle args = new Bundle();
+
+
+				if (followsHolder.getmUserId() != null) {
+
+					args.putString("selectedStoreId", followsHolder.getmUserId());
+
+					intent = new Intent(mContext, StoreDetailsActivity.class);
+					intent.putExtras(args);
+					mContext.startActivity(intent);
+				}			
+			}
+		});
+		
 		return convertView;
 	}
+	
+	
 }

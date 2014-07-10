@@ -41,17 +41,18 @@
 
     <!-- Content Description -->
     <string name="desc_list_item_icon">Item Icon</string>
-    <string name="title_fragment_setting">SettingFragment</string>
-    <string name="title_fragment_discover">DiscoverFragment</string>
-    <string name="title_fragment_recommendation">RecommendationFragment</string>
-    <string name="title_fragment_wishlist">WishlistFragment</string>
-    <string name="title_fragment_profile">ProfileFragment</string>
-    <string name="title_fragment_timeline">TimelineFragment</string>
-    <string name="title_activity_product_details">ProductDetailsActivity</string>
+    <string name="title_fragment_setting">Setting</string>
+    <string name="title_fragment_discover">Discover</string>
+    <string name="title_fragment_recommendation">Recommendation</string>
+    <string name="title_fragment_wishlist">Wishlist</string>
+    <string name="title_fragment_profile">Profile</string>
+    <string name="title_fragment_timeline">Timeline</string>
+    <string name="title_activity_product_details">Product Details </string>
     <string name="title_activity_search">Search</string>
-    <string name="title_activity_recommendation_product_fragment">RecommendationProductFragment</string>
-    <string name="title_activity_recommendation_store_fragment">RecommendationStoreFragment</string>
-    <string name="title_activity_search_product_by_category">SearchProductByCategoryActivity</string>
-    <string name="title_activity_activity_search_product">ActivitySearchProduct</string>
+    <string name="title_activity_recommendation_product_fragment">Recommendation Product</string>
+    <string name="title_activity_recommendation_store_fragment">Recommendation Store</string>
+    <string name="title_activity_search_product_by_category">Search Product By Category</string>
+    <string name="title_activity_activity_search_product">Activity Search Product</string>
+    <string name="title_activity_store_details">StoreDetailsActivity</string>
 
 </resources>

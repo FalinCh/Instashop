@@ -6,7 +6,9 @@ import com.cryingonion.instashop.instagram.listener.IAuthenticationListener;
 import com.cryingonion.instashop.instagram.listener.IFetchCmntsListener;
 import com.cryingonion.instashop.instagram.listener.IFetchIgFeedsListener;
 import com.cryingonion.instashop.instagram.listener.IFetchIgFollowsListener;
+import com.cryingonion.instashop.instagram.listener.IFollowUserListener;
 import com.cryingonion.instashop.instagram.listener.ILikeCmntListener;
+import com.cryingonion.instashop.instagram.listener.IProductInfoFetchedListener;
 import com.cryingonion.instashop.instagram.listener.IReqStatusListener;
 import com.cryingonion.instashop.instagram.listener.IUserInfoFetchedListener;
 
@@ -67,6 +69,14 @@ public class InstagramWrapper {
 	}
 	
 	/**
+	 * Get the user id.
+	 * @return
+	 */
+	public String getUserId(){
+		return mIgManager.getUserId();
+	}
+	
+	/**
 	 * Get all the Information about the authenticated User.
 	 *   
 	 * @param userId
@@ -120,6 +130,15 @@ public class InstagramWrapper {
 		mIgManager.getUserFeeds(userId, feedCount, nxtPgUrl, listener);
 	}
 	
+	/**
+	 * Get all the Information about the authenticated Product.
+	 *   
+	 * @param mediaId
+	 * @param listener
+	 */
+	public void getProductInfo(String mediaId, IProductInfoFetchedListener listener){
+		mIgManager.getProductinfo(mediaId, listener);
+	}
 	
 	/**
      * Get all the comments on a particular media.
@@ -159,6 +178,23 @@ public class InstagramWrapper {
 			loginInstagram();
 		} else {
 			mIgManager.postLikeOnMedia(reqType, mediaId, listener);
+		}
+	}
+	
+	/**
+     * To Post a like on a media.
+     * 
+     * @param reqType - type of request.
+     * @param mediaId
+     * @param listener
+     */
+	public void followUser(String userId,
+			IFollowUserListener listener) {
+
+		if (!isLoggedIn()) {
+			loginInstagram();
+		} else {
+			mIgManager.followUser(userId, listener);
 		}
 	}
     

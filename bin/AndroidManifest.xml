@@ -122,6 +122,10 @@
             android:name="com.cryingonion.instashop.SearchProductActivity"
             android:label="@string/title_activity_activity_search_product" >
         </activity>
+        <activity
+            android:name="com.cryingonion.instashop.StoreDetailsActivity"
+            android:label="@string/title_activity_store_details" >
+        </activity>
     </application>
 
 </manifest>

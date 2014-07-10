@@ -21,13 +21,16 @@ import com.cryingonion.instashop.instagram.listener.IAuthenticationListener;
 import com.cryingonion.instashop.instagram.listener.IFetchCmntsListener;
 import com.cryingonion.instashop.instagram.listener.IFetchIgFeedsListener;
 import com.cryingonion.instashop.instagram.listener.IFetchIgFollowsListener;
+import com.cryingonion.instashop.instagram.listener.IFollowUserListener;
 import com.cryingonion.instashop.instagram.listener.ILikeCmntListener;
+import com.cryingonion.instashop.instagram.listener.IProductInfoFetchedListener;
 import com.cryingonion.instashop.instagram.listener.IReqStatusListener;
 import com.cryingonion.instashop.instagram.listener.IUserInfoFetchedListener;
 import com.cryingonion.instashop.instagram.InstagramLoginDialog.OAuthDialogListener;
 import com.cryingonion.instashop.instagram.model.IgCommentModel;
 import com.cryingonion.instashop.instagram.model.IgFeedModel;
 import com.cryingonion.instashop.instagram.model.IgFollowsModel;
+import com.cryingonion.instashop.instagram.model.IgProductInfoModel;
 import com.cryingonion.instashop.instagram.model.IgUserInfoModel;
 import com.cryingonion.instashop.model.ParseDataManager;
 import com.parse.ParseException;
@@ -200,6 +203,16 @@ public class InstagramManager {
     }
     
     /**
+     * Get the product information.
+     * 
+     * @param userId - Id of the user whose information is to be fetched.
+     * @param listener - Callback to send the result back. 
+     */
+    public void getProductinfo(String mediaId , IProductInfoFetchedListener listener){
+    	new GetMediaInfoTask(listener).execute(mediaId);
+    }
+    
+    /**
      * Get the comments on a media.
      * 
      * @param mediaId  - Id of the media for which comments are to be fetched.
@@ -218,6 +231,17 @@ public class InstagramManager {
 //    public void postLikeOnMedia(String mediaId,ILikeCmntListener listener){
 //    	new PostLikeOnMediaTask(listener).execute(mediaId);
 //    }
+    
+    /**
+     * To Follow User.
+     * 
+     * @param reqType - type of the request ie. like
+     * @param userId - Id of the user to be followed.
+     * @param listener - Callback to send the result back.
+     */
+    public void followUser(String userId, IFollowUserListener listener) {
+    	new FollowUserTask(listener).execute(userId);
+    }
     
     /**
      * To Post a like on a media.
@@ -636,10 +660,12 @@ public class InstagramManager {
 		}
 	}
 	
+	
+	
 	/**
 	 * Asynctask to post like on a media.
 	 * 
-	 * @author ritesh
+	 * @author falinch
 	 *
 	 */
 	class PostLikeOnMediaTask extends AsyncTask<String, Integer, Integer>{
@@ -730,7 +756,7 @@ public class InstagramManager {
 	/**
 	 * Asynctask to post comment on a media.
 	 * 
-	 * @author ritesh
+	 * @author falinch
 	 *
 	 */
 	class PostCmntOnMediaTask extends AsyncTask<String, Integer, Integer>{
@@ -811,7 +837,7 @@ public class InstagramManager {
 	/**
 	 * Asynctask to undo like on a media.
 	 * 
-	 * @author ritesh
+	 * @author falinch
 	 *
 	 */
 	class DeleteLikeOnPostTask extends AsyncTask<String, Integer, Integer>{
@@ -1188,5 +1214,146 @@ public class InstagramManager {
 		};
 	}
 	
+	
+	/**
+     * Async Task to get the user info.  
+     */ 
+	class GetMediaInfoTask extends AsyncTask<String, IgProductInfoModel, IgProductInfoModel> {
+
+		IProductInfoFetchedListener mProductInfoListener;		
+		
+		public GetMediaInfoTask(){			
+		}
+		
+        public GetMediaInfoTask(IProductInfoFetchedListener listener){
+        	mProductInfoListener = listener;
+		}
+
+		@Override
+		protected void onPreExecute() {
+			super.onPreExecute();
+			mPrgrsDlg.setMessage("Getting product info ...");
+			// If activity is finishing , don't show the dialog
+		    // as it will cause bad window token exception
+		    if (!((Activity) mContext).isFinishing())
+			mPrgrsDlg.show();
+		}
+
+		@Override
+		protected IgProductInfoModel doInBackground(String... params) {
+
+			Log.d(TAG, "Fetching product info");
+
+			try {
+				URL url = new URL(API_URL + "/media/" + params[0]
+						+ "/?access_token=" + getAccessToken());
+
+				Log.d(TAG, "Opening URL " + url.toString());
+				HttpURLConnection urlConnection = (HttpURLConnection) url
+						.openConnection();
+				urlConnection.setRequestMethod(HTTP_GET);
+				// urlConnection.setDoInput(true);
+				// urlConnection.setDoOutput(true);
+				urlConnection.connect();
+				String response = streamToString(urlConnection.getInputStream());
+
+				Log.d(TAG, "Fetch product info response :" + response);
+
+				IgProductInfoModel productInfoModel = new IgProductInfoModel(response);	
+
+				return productInfoModel;
+				
+			} catch (Exception ex) {
+				ex.printStackTrace();
+				return null;
+			}			
+		}
+
+		@Override
+		protected void onPostExecute(IgProductInfoModel model) {
+
+			if(null != mPrgrsDlg && mPrgrsDlg.isShowing())
+    			mPrgrsDlg.dismiss();
+			
+			if (null != model) {
+				mProductInfoListener.onIgProductInfoFetched(model.getDataHolder());				
+			} else {
+				mProductInfoListener.onIgProductInfoFetchingFailed();
+			}		
+		}
+	}
+	
+	/**
+	 * Asynctask to Follow User
+	 * 
+	 * @author falinch
+	 *
+	 */
+	class FollowUserTask extends AsyncTask<String, Integer, Integer>{
+		
+		IFollowUserListener mFollowListener;
+		int mReqType;
+		
+		public FollowUserTask(){}
+		
+		public FollowUserTask(IFollowUserListener listener) {
+			mFollowListener = listener;
+		}
+		
+		
+		@Override
+		protected void onPreExecute() {
+			super.onPreExecute();
+			mPrgrsDlg.setMessage("Following the Store ...");
+			// If activity is finishing , don't show the dialog
+		    // as it will cause bad window token exception
+		    if (!((Activity) mContext).isFinishing())
+			mPrgrsDlg.show();
+		}
+		
+		@Override
+		protected Integer doInBackground(String... params) {
+		
+			Log.d(TAG, "Posting like on media");
+
+			try {
+				
+				URL url = new URL(API_URL + "/users/" + params[0]
+						+ "/follow?access_token=" + getAccessToken());
+				
+				Log.d(TAG, "Opening URL " + url.toString());
+				HttpURLConnection urlConnection = (HttpURLConnection) url
+						.openConnection();
+				urlConnection.setRequestMethod(HTTP_POST);				
+				
+				OutputStreamWriter writer = new OutputStreamWriter(urlConnection.getOutputStream());
+				writer.write("access_token="+getAccessToken());				
+				
+			    writer.flush();
+				
+				String response = streamToString(urlConnection.getInputStream());
+
+				Log.d(TAG, "Follow response :" + response);	
+				
+                JSONObject jsonObj = (JSONObject) new JSONTokener(response).nextValue();
+							
+				int responseCode = jsonObj.getJSONObject("meta").getInt("code");
+				
+				return responseCode;
+			} catch (Exception ex) {
+				ex.printStackTrace();
+				return 0;
+			}			
+		}
+		
+		@Override
+		protected void onPostExecute(Integer responseCode) {
+			
+			if (null != mPrgrsDlg && mPrgrsDlg.isShowing())
+            mPrgrsDlg.dismiss();
+			
+			mFollowListener.onCopmplete(mReqType,responseCode);
+		}
+	}
 	
 }

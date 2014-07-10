@@ -79,9 +79,14 @@ public class IgProductInfoModel {
 
 				}
 				if (internal_Obj.has(KEY_CAPTION)) {
-					mMediaInfoHolder.setmCaptionText(internal_Obj
-							.optString(KEY_CAPTION));
+					JSONObject jsonCaption = internal_Obj
+							.getJSONObject(KEY_CAPTION);
 
+					// Get the caption text
+					if (jsonCaption.has(KEY_TEXT)) {
+						mMediaInfoHolder.setmCaptionText(jsonCaption
+								.optString(KEY_TEXT));
+					}
 				}
 				if (internal_Obj.has(KEY_CREATED_TIME)) {
 					mMediaInfoHolder.setmCreatedTime(internal_Obj

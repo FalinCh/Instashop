@@ -8,9 +8,7 @@
         <RelativeLayout
             android:id="@+id/rel_media"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_alignLeft="@id/box_userinfo"
-            android:layout_alignRight="@id/box_userinfo">
+            android:layout_height="wrap_content">
             
             <ImageView
                 android:id="@+id/imgvw_ig_media"

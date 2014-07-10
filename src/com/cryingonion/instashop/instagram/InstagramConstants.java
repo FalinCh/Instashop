@@ -19,6 +19,8 @@ public static final String TAG = "InstagramConstant";
 	public static final int IG_REQ_POST_LIKE = 104;
 	public static final int IG_REQ_POST_CMNT = 105;
 	
+	public static final String IG_MEDIA_ID = "mediaId";
+	
 	public static final String IG_MEDIA_VIDEO = "video";
 	
 }

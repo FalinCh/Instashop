@@ -20,10 +20,12 @@ import android.widget.TextView;
 
 import com.cryingonion.instashop.instagram.listener.IAuthenticationListener;
 import com.cryingonion.instashop.instagram.listener.ILikeCmntListener;
+import com.cryingonion.instashop.instagram.listener.IProductInfoFetchedListener;
 import com.cryingonion.instashop.instagram.InstagramActivity;
 import com.cryingonion.instashop.instagram.InstagramConstants;
 import com.cryingonion.instashop.instagram.InstagramVideoDetailActivity;
 import com.cryingonion.instashop.instagram.InstagramWrapper;
+import com.cryingonion.instashop.ProductDetailsActivity;
 import com.cryingonion.instashop.R;
 import com.cryingonion.instashop.instagram.InstagramCmntDialogFrag;
 import com.cryingonion.instashop.instagram.holder.IgFeedHolder;
@@ -128,49 +130,55 @@ public class IgFeedAdapterGrid extends BaseAdapter {
 		
 		
 		
-		holder.mImgVwFeed.setOnClickListener(new OnClickListener() {
-
-			@Override
-			public void onClick(View v) {
-
-				InstagramWrapper wrapper = new InstagramWrapper(mContext);
-
-				if (wrapper.isLoggedIn()) {
-//					InstagramCmntDialogFrag cmntDlgFrag = new InstagramCmntDialogFrag(
-//							mContext, feedHolder.getmMediaId());
-//					cmntDlgFrag.show(((FragmentActivity) mContext)
-//							.getSupportFragmentManager(), "IgCmntDialog");
-				} else {
-
-					// To login instagram
-					Intent intent = new Intent(mContext, InstagramActivity.class);
-					intent.putExtra(InstagramConstants.IG_REQUEST,
-							InstagramConstants.IG_REQ_LOGIN);
-
-					InstagramActivity.setIgAuthListener(new IAuthenticationListener() {
-
-						@Override
-						public void onAuthSuccess() {
-//							InstagramCmntDialogFrag cmntDlgFrag = new InstagramCmntDialogFrag(
-//									mContext, feedHolder.getmMediaId());
+//		holder.mImgVwFeed.setOnClickListener(new OnClickListener() {
 //
-//							FragmentTransaction transaction = ((FragmentActivity) mContext)
-//									.getSupportFragmentManager()
-//									.beginTransaction();
-//							transaction.add(cmntDlgFrag, "IgCmntDialog");
-//							transaction.commitAllowingStateLoss();
-						}
-
-						@Override
-						public void onAuthFail(String error) {
-
-						}
-					});
-
-					mContext.startActivity(intent);
-				}				
-			}
-		});
+//			@Override
+//			public void onClick(View v) {
+//
+//				InstagramWrapper wrapper = new InstagramWrapper(mContext);
+//
+//				if (wrapper.isLoggedIn()) {
+////					InstagramCmntDialogFrag cmntDlgFrag = new InstagramCmntDialogFrag(
+////							mContext, feedHolder.getmMediaId());
+////					cmntDlgFrag.show(((FragmentActivity) mContext)
+////							.getSupportFragmentManager(), "IgCmntDialog");
+//					
+//					Intent intent = new Intent(mContext, ProductDetailsActivity.class);
+//					intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+//					intent.putExtra(InstagramConstants.IG_MEDIA_ID, feedHolder.getmMediaId());
+//					
+//					
+//				} else {
+//
+//					// To login instagram
+//					Intent intent = new Intent(mContext, InstagramActivity.class);
+//					intent.putExtra(InstagramConstants.IG_REQUEST,
+//							InstagramConstants.IG_REQ_LOGIN);
+//
+//					InstagramActivity.setIgAuthListener(new IAuthenticationListener() {
+//
+//						@Override
+//						public void onAuthSuccess() {
+////							InstagramCmntDialogFrag cmntDlgFrag = new InstagramCmntDialogFrag(
+////									mContext, feedHolder.getmMediaId());
+////
+////							FragmentTransaction transaction = ((FragmentActivity) mContext)
+////									.getSupportFragmentManager()
+////									.beginTransaction();
+////							transaction.add(cmntDlgFrag, "IgCmntDialog");
+////							transaction.commitAllowingStateLoss();
+//						}
+//
+//						@Override
+//						public void onAuthFail(String error) {
+//
+//						}
+//					});
+//
+//					mContext.startActivity(intent);
+//				}				
+//			}
+//		});
 		
 		return convertView;
 	}
@@ -187,18 +195,28 @@ public class IgFeedAdapterGrid extends BaseAdapter {
 				Intent intent = null;
 				Bundle args = new Bundle();
 
-				if (feedHolder.getmFeedType() != null
-						&& feedHolder.getmFeedType().equalsIgnoreCase(
-								InstagramConstants.IG_MEDIA_VIDEO)) {
+//				if (feedHolder.getmFeedType() != null
+//						&& feedHolder.getmFeedType().equalsIgnoreCase(
+//								InstagramConstants.IG_MEDIA_VIDEO)) {
+//
+//					args.putString("video_url", feedHolder.getmVidStdResUrl());
+//
+//					intent = new Intent(mContext, InstagramVideoDetailActivity.class);
+//
+//					intent.putExtras(args);
+//					mContext.startActivity(intent);
+//				}
 
-					args.putString("video_url", feedHolder.getmVidStdResUrl());
+				if (feedHolder.getmFeedType() != null) {
 
-					intent = new Intent(mContext, InstagramVideoDetailActivity.class);
+					args.putString("selectedMediaId", feedHolder.getmMediaId());
 
+					intent = new Intent(mContext, ProductDetailsActivity.class);
 					intent.putExtras(args);
 					mContext.startActivity(intent);
 				}
 
+				
 			}
 		});
 	}
@@ -220,5 +238,17 @@ public class IgFeedAdapterGrid extends BaseAdapter {
 			}
 
 		}
+	};
+	
+	private IProductInfoFetchedListener mProductInfoListener = new IProductInfoFetchedListener() {
+
+		@Override
+		public void onIgProductInfoFetched(IgFeedHolder feedHolder) {
+
+			
+
+		}
+		
+		public void onIgProductInfoFetchingFailed(){};
 	};
 }

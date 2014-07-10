@@ -13,6 +13,7 @@ import android.util.Log;
 import android.view.Display;
 import android.view.ViewGroup;
 import android.view.Window;
+import android.view.WindowManager;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.FrameLayout;
@@ -78,7 +79,8 @@ private static final String TAG = "Instagram-WebView";
 		addContentView(mContent, new FrameLayout.LayoutParams(
 			(int) dimensions[0], (int) dimensions[1]));		
 	}
-
+	
+	
 	/**
 	 * Title for the webview within dialog.
 	 */
