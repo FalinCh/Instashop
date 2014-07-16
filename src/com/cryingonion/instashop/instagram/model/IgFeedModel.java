@@ -54,6 +54,12 @@ public class IgFeedModel {
 			e.printStackTrace();
 		}
 	}
+	
+	public IgFeedModel(ArrayList<JSONObject> jsonResponse) {
+
+		parseArrayResponse(jsonResponse);
+		Log.d("A", "IgFeedModel");
+	}
 
 	public void parseResponse(JSONObject jsonObj) {
 
@@ -87,6 +93,201 @@ public class IgFeedModel {
 					Log.d(InstagramConstants.TAG, " IG post Num :" + i);
 
 					JSONObject singleFeedObject = feedsArray.getJSONObject(i);
+					IgFeedHolder igFeedHolder = new IgFeedHolder();
+
+					// Get the comment object.
+					if (singleFeedObject.has(KEY_CMNTS)) {
+						JSONObject jsonCmnt = singleFeedObject
+								.getJSONObject(KEY_CMNTS);
+
+						// Get the comments count
+						if (jsonCmnt.has(KEY_COUNT)) {
+							igFeedHolder.setmCmntCount(jsonCmnt
+									.optString(KEY_COUNT));
+						}
+					}
+
+					// Post created time
+					if (singleFeedObject.has(KEY_CREATED_TIME)) {
+						igFeedHolder.setmCreatedTime(singleFeedObject
+								.optString(KEY_CREATED_TIME));
+					}
+
+					// Media ID
+					if (singleFeedObject.has(KEY_ID)) {
+						igFeedHolder.setmMediaId(singleFeedObject
+								.optString(KEY_ID));
+					}
+
+					// Get the like object.
+					if (singleFeedObject.has(KEY_LIKES)) {
+						JSONObject jsonLike = singleFeedObject
+								.getJSONObject(KEY_LIKES);
+
+						// Get the likes count
+						if (jsonLike.has(KEY_COUNT)) {
+							igFeedHolder.setmLikesCount(jsonLike
+									.optString(KEY_COUNT));
+						}
+					}
+
+					// Get the Images object.
+					if (singleFeedObject.has(KEY_IMAGES)) {
+						JSONObject jsonImage = singleFeedObject
+								.getJSONObject(KEY_IMAGES);
+
+						// Get the low resolution image object
+						if (jsonImage.has(KEY_LOW_RESO)) {
+
+							JSONObject obj = jsonImage
+									.getJSONObject(KEY_LOW_RESO);
+							if (obj.has(KEY_URL)) {
+								// Get the low resolution image url
+								igFeedHolder.setmLowResImgUrl(obj
+										.optString(KEY_URL));
+							}
+						}
+
+						// Get the thmbnl image object
+						if (jsonImage.has(KEY_THMBNL)) {
+
+							JSONObject obj = jsonImage
+									.getJSONObject(KEY_THMBNL);
+							if (obj.has(KEY_URL)) {
+								// Get the thmbnl image url
+								igFeedHolder.setmThmbnlUrl(obj
+										.optString(KEY_URL));
+							}
+						}
+
+						// Get the std resolution image object
+						if (jsonImage.has(KEY_STD_RESO)) {
+
+							JSONObject obj = jsonImage
+									.getJSONObject(KEY_STD_RESO);
+							if (obj.has(KEY_URL)) {
+								// Get the std resolution image url
+								igFeedHolder.setmStdResImgUrl(obj
+										.optString(KEY_URL));
+							}
+						}
+					}
+
+					
+//					// Get the caption object.
+//					if (singleFeedObject.has(KEY_CAPTION)) {
+//						JSONObject jsonCaption = singleFeedObject
+//								.getJSONObject(KEY_CAPTION);
+//
+//						// Get the caption text
+//						if (jsonCaption.has(KEY_TEXT)) {
+//							igFeedHolder.setmCaptionText(jsonCaption
+//									.optString(KEY_TEXT));
+//						}
+//					}
+					
+					// Get the feed type (Image or Video.)
+					if (singleFeedObject.has(KEY_FEED_TYPE)) {
+						igFeedHolder.setmFeedType(singleFeedObject
+								.optString(KEY_FEED_TYPE));
+					}
+
+					// Get the Video object.
+					if (singleFeedObject.has(KEY_VIDEOS)) {
+						JSONObject jsonVideo = singleFeedObject
+								.getJSONObject(KEY_VIDEOS);
+
+						// Get the low resolution video object
+						if (jsonVideo.has(KEY_LOW_RESO)) {
+
+							JSONObject obj = jsonVideo
+									.getJSONObject(KEY_LOW_RESO);
+							if (obj.has(KEY_URL)) {
+								// Get the low resolution video url
+								igFeedHolder.setmVidLowResUrl(obj
+										.optString(KEY_URL));
+							}
+						}
+
+						// Get the std resolution video object
+						if (jsonVideo.has(KEY_STD_RESO)) {
+
+							JSONObject obj = jsonVideo
+									.getJSONObject(KEY_STD_RESO);
+							if (obj.has(KEY_URL)) {
+								// Get the std resolution video url
+								igFeedHolder.setmVidStdResUrl(obj
+										.optString(KEY_URL));
+							}
+						}
+					}
+
+					// If user has liked the media or not
+					if (singleFeedObject.has(KEY_USER_LIKED)) {
+						igFeedHolder.setmLikeStatus(singleFeedObject
+								.getBoolean(KEY_USER_LIKED));
+					}
+
+					// Get the user object.
+					if (singleFeedObject.has(KEY_USER)) {
+
+						JSONObject jsonUser = singleFeedObject
+								.getJSONObject(KEY_USER);
+						IgUserInfoHolder infoHolder = new IgUserInfoHolder();
+						if (jsonUser.has(IgUserInfoModel.USR_ID)) {
+							infoHolder.setmUserId(jsonUser
+									.optString(IgUserInfoModel.USR_ID));
+						}
+
+						if (jsonUser.has(IgUserInfoModel.USR_NAME)) {
+							infoHolder.setmUserName(jsonUser
+									.optString(IgUserInfoModel.USR_NAME));
+						}
+
+						if (jsonUser.has(IgUserInfoModel.USR_FULL_NAME)) {
+							infoHolder.setmUserFullName(jsonUser
+									.optString(IgUserInfoModel.USR_FULL_NAME));
+
+						}
+						if (jsonUser.has(IgUserInfoModel.USR_PROF_PIC_URL)) {
+							infoHolder
+									.setmUserProfPicUrl(jsonUser
+											.optString(IgUserInfoModel.USR_PROF_PIC_URL));
+
+						}
+						if (jsonUser.has(IgUserInfoModel.USR_BIO)) {
+							infoHolder.setmUserBio(jsonUser
+									.optString(IgUserInfoModel.USR_BIO));
+
+						}
+						if (jsonUser.has(IgUserInfoModel.USR_WEBSITE)) {
+							infoHolder.setmUserWebSite(jsonUser
+									.optString(IgUserInfoModel.USR_WEBSITE));
+						}
+
+						igFeedHolder.setmUserInfo(infoHolder);
+					}
+
+					mIgFeedList.add(igFeedHolder);
+				}
+
+			} catch (JSONException e) {
+				Log.e(InstagramConstants.TAG,
+						"Exception in IgFeedModel :" + e.getMessage());
+				e.printStackTrace();
+			}
+		}
+	}
+	
+	public void parseArrayResponse(ArrayList<JSONObject> feedsArray) {
+
+		if (feedsArray!=null) {
+			try {
+
+				for (int i = 0; i < feedsArray.size(); i++) {
+					Log.d(InstagramConstants.TAG, " IG post Num :" + i);
+
+					JSONObject singleFeedObject = feedsArray.get(i);
 					IgFeedHolder igFeedHolder = new IgFeedHolder();
 
 					// Get the comment object.

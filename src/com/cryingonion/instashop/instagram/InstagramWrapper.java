@@ -131,6 +131,18 @@ public class InstagramWrapper {
 	}
 	
 	/**
+	 * Get all the wishlist of a particular user.
+	 * 
+	 * @param userId
+	 * @param listener
+	 */
+	public void getWishlist(String userId,IFetchIgFeedsListener listener){
+		mIgManager.getWishlist(userId,listener);
+	}
+	
+	
+	
+	/**
 	 * Get all the Information about the authenticated Product.
 	 *   
 	 * @param mediaId

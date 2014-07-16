@@ -7,7 +7,10 @@ import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.util.ArrayList;
+import java.util.List;
 
+import org.json.JSONArray;
 import org.json.JSONObject;
 import org.json.JSONTokener;
 
@@ -33,8 +36,10 @@ import com.cryingonion.instashop.instagram.model.IgFollowsModel;
 import com.cryingonion.instashop.instagram.model.IgProductInfoModel;
 import com.cryingonion.instashop.instagram.model.IgUserInfoModel;
 import com.cryingonion.instashop.model.ParseDataManager;
+import com.parse.FindCallback;
 import com.parse.ParseException;
 import com.parse.ParseObject;
+import com.parse.ParseQuery;
 import com.parse.ParseUser;
 import com.parse.SignUpCallback;
 
@@ -340,6 +345,16 @@ public class InstagramManager {
     	new SearchTagTask(productCount,nxtPgUrl,listener).execute(keyword);
     }
 
+    /**
+     * Get the users wishlist.
+     * 
+     * @param userId- Id of the user whose posts are to be fetched.
+     * @param listener - Callback to send the result back. 
+     */
+    public void getWishlist(String userId, IFetchIgFeedsListener listener){
+    	new GetWishlistTask(listener).execute(userId);
+    }
+    
     
     
     
@@ -1355,5 +1370,123 @@ public class InstagramManager {
 			mFollowListener.onCopmplete(mReqType,responseCode);
 		}
 	}
+	
+	/**
+     * Async Task to get the Images (Feeds).  
+     */
+    
+	class GetWishlistTask extends AsyncTask<String, IgFeedModel, IgFeedModel>{
+		
+		IFetchIgFeedsListener mFeedListener;
+		String mNxtUrl;
+		String mCount = "100"; // Default feedcount.	
+		
+		public GetWishlistTask (){
+			
+		}
+		
+		public GetWishlistTask(IFetchIgFeedsListener listener){
+			mFeedListener = listener;
+		}
+		
+		
+		@Override
+		protected void onPreExecute() {
+			super.onPreExecute();
+//			mPrgrsDlg.setMessage("Getting user photos ...");
+//			// If activity is finishing , don't show the dialog
+//		    // as it will cause bad window token exception
+//		    if (!((Activity) mContext).isFinishing())
+//			mPrgrsDlg.show();
+		}
+		
+		@Override
+		protected IgFeedModel doInBackground(String... params) {
+			
+			Log.d(TAG, "Fetching user photos");
+			
+			try {
+				
+				ArrayList<String> listWishlist = new ArrayList<String>();
+				
+				listWishlist = getWishlistFromParse(mSession.getId());
+				
+				ArrayList<JSONObject> wishlistArray = new ArrayList<JSONObject>();
+				
+				for(int i=0;i<listWishlist.size();i++)
+				{
+					URL url = new URL(API_URL + "/media/" + params[0]
+							+ "/?access_token=" + getAccessToken());
+					
+					HttpURLConnection urlConnection = (HttpURLConnection) url
+							.openConnection();
+					urlConnection.setRequestMethod(HTTP_GET);
+					urlConnection.connect();
+					
+					String response = streamToString(urlConnection.getInputStream());
+
+					JSONObject jsonObject = new JSONObject(response);	
+					
+					wishlistArray.add(jsonObject);
+				}
+				
+				IgFeedModel feedModel = new IgFeedModel(wishlistArray);					
+				
+				return feedModel;
+			}catch (Exception ex) {
+				ex.printStackTrace();
+				return null;
+			}			
+		};
+		
+		@Override
+		protected void onPostExecute(IgFeedModel feedModel) {
+			
+			if (null != mPrgrsDlg && mPrgrsDlg.isShowing())
+				mPrgrsDlg.dismiss();
+			
+			if (null != feedModel) {
+				mFeedListener.onIgFeedsFetched(feedModel.getUserIgFeeds(),
+						feedModel.getIgNxtPageUrl());
+			} else {
+				mFeedListener.onIgFeedsFetched(null, null);
+			}
+		};
+	}
+	
+	
+	public ArrayList<String> getWishlistFromParse(String userId)
+	{
+		final ArrayList<String> listWishlist = new ArrayList<String>();
+		
+		ParseQuery<ParseObject> query = ParseQuery.getQuery("Wishlist");
+		query.whereEqualTo("username", userId);
+		
+		query.findInBackground(new FindCallback<ParseObject>() {
+		    
+			public void done(List<ParseObject> wishlists, ParseException e) {
+		        if (e == null) {
+		            
+		        	for (ParseObject wishlist : wishlists) {
+						
+		            	String imageId = wishlist.getString("productId");
+		            	Log.d("imageId", imageId);
+			            
+		            	listWishlist.add(imageId);
+
+					}
+		            
+		        } else {
+		            Log.d("score", "Error: " + e.getMessage());
+		            
+		        }
+		    }
+		});
+		
+		return listWishlist;
+	}
+	
+	
+	
 	
 }

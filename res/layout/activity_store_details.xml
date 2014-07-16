@@ -4,6 +4,52 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
+    <LinearLayout
+	    android:layout_width="fill_parent"
+	    android:layout_height="wrap_content"
+	    android:orientation="horizontal">
+	       
+	       <Button
+		        android:id="@+id/btnFollow"
+		        android:layout_width="0dp"
+		        android:layout_weight="1"
+		        android:layout_height="50dp"
+		        android:background="@color/purple"
+		        android:text="Follow +" >
+		    </Button>
+		    
+	       	<View
+	            android:id="@+id/view1"
+	            android:layout_width="2dp"
+	            android:layout_height="fill_parent"
+	            android:background="@color/list_divider" />
+	       
+		    <Button
+		        android:id="@+id/btnRecommend"
+		        android:layout_width="0dp"
+		        android:layout_weight="1"
+		        android:layout_height="50dp"
+		        android:background="@color/purple"
+		        android:text="Recommend" >
+		    </Button>
+		    
+		    <View
+	            android:id="@+id/view2"
+	            android:layout_width="2dp"
+	            android:layout_height="fill_parent"
+	            android:background="@color/list_divider" />
+	       
+		    <Button
+		        android:id="@+id/btnContact"
+		        android:layout_width="0dp"
+		        android:layout_weight="1"
+		        android:layout_height="50dp"
+		        android:background="@color/purple"
+		        android:text="Contact" >
+		    </Button>
+	    
+	</LinearLayout>
+    
     <RelativeLayout
 	        android:id="@+id/rel_media"
 	        android:layout_width="fill_parent"
@@ -100,7 +146,7 @@
 						        android:layout_height="wrap_content"
 						        android:layout_marginRight="@dimen/margin_between_text" 
 						        android:singleLine="true"
-						        android:layout_marginTop="4dp"
+						        android:layout_marginTop="6dp"
 						        android:textSize="12sp"
 						        android:text="FOLLOWERS" />
 						    
@@ -118,18 +164,35 @@
 						    
 					    </LinearLayout>
 					    
-					    <Button
-					        android:id="@+id/btnFollow"
-					        android:layout_width="120dp"
-					        android:layout_height="35dp"
-					        android:gravity="center"
-					        android:layout_marginLeft="@dimen/margin_big" 
-					        android:layout_marginTop="@dimen/margin_between_text"
-					        android:layout_marginBottom="@dimen/margin_between_content"
-					        android:background="@color/purple"
-					        android:text="Follow" >
-					    </Button>
+					    <LinearLayout
+					        android:layout_width="wrap_content"
+						    android:layout_height="50dp"
+						    android:orientation="vertical" 
+						    android:layout_marginLeft="@dimen/margin" 
+						    android:gravity="left">
 					    
+						    <TextView
+						        android:layout_width="wrap_content"
+						        android:layout_height="wrap_content"
+						        android:layout_marginRight="@dimen/margin_between_text" 
+						        android:singleLine="true"
+						        android:layout_marginTop="6dp"
+						        android:textSize="12sp"
+						        android:text="FOLLOWING" />
+						    
+						    <TextView
+						        android:id="@+id/txt_ig_following_count"
+						        android:layout_width="wrap_content"
+						        android:layout_height="wrap_content"
+						        android:layout_marginRight="@dimen/margin_between_text" 
+						        android:layout_marginTop="@dimen/margin_between_text"
+						        android:singleLine="true"
+						        android:textSize="12sp"
+						        android:text="Following count" />
+						    
+						    
+						    
+					    </LinearLayout>
 					</LinearLayout>
 				</LinearLayout>
 			    
@@ -137,21 +200,127 @@
 		    
 	    </RelativeLayout>
     
+<!--     <LinearLayout -->
+<!-- 	    android:layout_width="fill_parent" -->
+<!-- 	    android:layout_height="wrap_content" -->
+<!-- 	    android:orientation="horizontal"> -->
+	       
+<!-- 	       <Button -->
+<!-- 		        android:id="@+id/btnProductByStore" -->
+<!-- 		        android:layout_width="0dp" -->
+<!-- 		        android:layout_weight="1" -->
+<!-- 		        android:layout_height="50dp" -->
+<!-- 		        android:background="@color/purple" -->
+<!-- 		        android:text="Products" > -->
+<!-- 		    </Button> -->
+		    
+<!-- 	       	<View -->
+<!-- 	            android:id="@+id/view3" -->
+<!-- 	            android:layout_width="2dp" -->
+<!-- 	            android:layout_height="fill_parent" -->
+<!-- 	            android:background="@color/list_divider" /> -->
+	       
+<!-- 		    <Button -->
+<!-- 		        android:id="@+id/btnInfo" -->
+<!-- 		        android:layout_width="0dp" -->
+<!-- 		        android:layout_weight="1" -->
+<!-- 		        android:layout_height="50dp" -->
+<!-- 		        android:background="@color/purple" -->
+<!-- 		        android:text="About" > -->
+<!-- 		    </Button> -->
+		     
+<!-- 	</LinearLayout> -->
+    
     <ScrollView
         android:layout_width="match_parent"
-		android:layout_height="wrap_content" >
+		android:layout_height="fill_parent"
+		android:id="@+id/layoutstoreContentByProduct" 
+	    android:visibility="visible" >
         
         <LinearLayout
-            android:id="@+id/layoutstoreContent" 
-            android:layout_width="match_parent"
-		 	android:layout_height="wrap_content"
-		 	android:orientation="vertical" >
-		 	
-	    
+            android:layout_width="fill_parent"
+		 	android:layout_height="210dp"
+		 	android:orientation="vertical">
+		            
+            <GridView
+                android:id="@+id/grid_ig_feeds"
+                android:layout_width="fill_parent"
+                android:layout_height="269dp"
+                android:columnWidth="120dp"
+                android:gravity="center"
+                android:horizontalSpacing="1dp"
+                android:numColumns="auto_fit"
+                android:stretchMode="columnWidth"
+                android:verticalSpacing="1dp" />
+		
+		    <TextView
+		        android:id="@+id/txt_empty_view"
+		        android:layout_width="match_parent"
+		        android:layout_height="match_parent"
+		        android:gravity="center"
+		        android:text="No content"
+		        android:textColor="@android:color/white"
+		        android:visibility="gone" />
             
-        </LinearLayout>
+	    </LinearLayout>
+	</ScrollView>
+		
+<!--         <ScrollView -->
+<!-- 	        android:layout_width="fill_parent" -->
+<!-- 			android:layout_height="fill_parent" -->
+<!-- 			android:id="@+id/layoutstoreContentByInfo" -->
+<!-- 			android:visibility="invisible"  > -->
+			    
+<!-- 		    <LinearLayout -->
+<!-- 	            android:layout_width="fill_parent" -->
+<!-- 			 	android:layout_height="match_parent" -->
+<!-- 			 	android:layout_margin="@dimen/margin"  -->
+<!-- 			 	android:orientation="vertical"	> -->
+			    		    
+<!-- 		        <TextView -->
+<!-- 			        android:layout_width="wrap_content" -->
+<!-- 			        android:layout_height="wrap_content" -->
+<!-- 			        android:layout_marginRight="@dimen/margin_between_text"  -->
+<!-- 			        android:singleLine="true" -->
+<!-- 			        android:text="About Store :" /> -->
+			    
+<!-- 		        <TextView -->
+<!-- 			        android:id="@+id/txt_ig_bio" -->
+<!-- 			        android:layout_width="wrap_content" -->
+<!-- 			        android:layout_height="wrap_content" -->
+<!-- 			        android:layout_marginRight="@dimen/margin_between_text"  -->
+<!-- 			        android:layout_marginTop="@dimen/margin_between_text" -->
+<!-- 			        android:singleLine="true" -->
+<!-- 			        android:text="Bio" /> -->
+		        
+<!-- 		        <TextView -->
+<!-- 			        android:layout_width="wrap_content" -->
+<!-- 			        android:layout_height="wrap_content" -->
+<!-- 			        android:layout_marginRight="@dimen/margin_between_text"  -->
+<!-- 			        android:singleLine="true" -->
+<!-- 			        android:layout_marginTop="@dimen/margin" -->
+<!-- 			        android:text="Website :" /> -->
+		        
+<!-- 			    <TextView -->
+<!-- 			        android:id="@+id/txt_ig_website" -->
+<!-- 			        android:layout_width="wrap_content" -->
+<!-- 			        android:layout_height="wrap_content" -->
+<!-- 			        android:layout_marginRight="@dimen/margin_between_text"  -->
+<!-- 			        android:layout_marginTop="@dimen/margin_between_text" -->
+<!-- 			        android:singleLine="true" -->
+<!-- 			        android:text="Website" /> -->
+			    
+<!-- 			    <TextView -->
+<!-- 			        android:layout_width="wrap_content" -->
+<!-- 			        android:layout_height="wrap_content" -->
+<!-- 			        android:layout_marginRight="@dimen/margin_between_text"  -->
+<!-- 			        android:singleLine="true" -->
+<!-- 			        android:layout_marginTop="@dimen/margin" -->
+<!-- 			        android:text="Email : -" /> -->
+	            
+<!-- 	        </LinearLayout> -->
         
-    </ScrollView>
+<!--     </ScrollView> -->
     
      
 
